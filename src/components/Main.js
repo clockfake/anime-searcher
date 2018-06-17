@@ -1,22 +1,35 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 
-class Main extends Component {
+export default class Main extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      titleList: null,
+      displayMode: '?sort=popularityRank'
+    };
+  }
 
   handleSelect(mode) {
-    this.props.onHandleSelect(mode);
+    let query;
+    switch (mode) {
+        case 'top-airing': {query = '?filter[status]=current&sort=popularityRank'; break};
+        case 'top-rated': {query = '?sort=ratingRank'; break};
+        case 'top-popular' : {query = '?sort=popularityRank'; break};
+        default: {query = '?sort=+popularityRank'}
+      }
+    this.setState({titleList: null, displayMode:query});
   }
 
   render() {
-    if (!this.props.animeList) {
+    if (!this.state.titleList) {
       let fetchdata = new XMLHttpRequest();
-      fetchdata.open('get','https://kitsu.io/api/edge/anime' + this.props.displayMode + '&page[limit]=12&fields[anime]=id,posterImage,canonicalTitle');
-      const boundConnectFunc = this.props.onGetData.bind(this);
+      fetchdata.open('get','https://kitsu.io/api/edge/anime' + this.state.displayMode + '&page[limit]=12&fields[anime]=id,posterImage,canonicalTitle');
+      const boundSetState = this.setState.bind(this);
       fetchdata.onreadystatechange = function() {
       if (this.readyState === 4 && this.status === 200) {
         let result  = JSON.parse(fetchdata.responseText);
-        boundConnectFunc(result);
+        boundSetState({titleList: result});
         }
       };
       fetchdata.send();
@@ -28,7 +41,7 @@ class Main extends Component {
         <button className="main__button" onClick={() => this.handleSelect('top-rated')}>Top rated</button>
         <button className="main__button" onClick={() => this.handleSelect('top-popular')}>Top popular</button>
       </div>
-      {this.props.animeList.data.map( (i,index) => {
+      {this.state.titleList.data.map( (i,index) => {
         return (
         <div key={index} className="main__item">
           <Link to={`/title/${i.id}`}>
@@ -43,18 +56,3 @@ class Main extends Component {
   )
   }
 }
-
-export default connect(
-  state => ({
-    animeList: state.animeList,
-    displayMode: state.mainDisplayMode
-  }),
-  dispatch => ({
-    onGetData : (result) => {
-      dispatch({type: 'FETCH_API_SUCCESS', payload:result})
-    },
-    onHandleSelect: (mode) => {
-      dispatch({type: 'SELECT_DISPLAY_MODE', payload:mode})
-    }
-  })
-)(Main);

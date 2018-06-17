@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
 
-class Title extends Component {
+export default class Title extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fetchedTitle: undefined
+      fetchedTitle: null,
     }
   }
 
@@ -53,5 +52,3 @@ class Title extends Component {
   )
   }
 }
-
-export default connect()(Title);

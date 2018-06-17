@@ -1,30 +1,24 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
+import SearchPopup from './SearchPopup.js';
 
-class SearchInput extends Component {
+export default class SearchInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fetchedTitle: undefined
+      inputValue: ''
     }
   }
 
   handleInput(event) {
-    this.props.onHandleInput(event.target.value);
+    this.setState({inputValue: event.target.value});
   }
 
   render() {
     return(
       <div className='search__wrapper'>
         <input className='search__input' onChange={(e) => this.handleInput(e)} type="text"/>
+        <SearchPopup input={this.state.inputValue}/>
       </div>
     )
   }
 }
-
-export default connect(
-  state => ({}),
-  dispatch => ({
-    onHandleInput: (inputValue) => {dispatch({type:'SEARCH_INPUT_CHANGE',payload:inputValue})}
-  })
-)(SearchInput);
