@@ -10,29 +10,26 @@ export default class SearchPopup extends Component {
     };
   }
 
+  onLinkClick() {
+    this.props.onLinkClick()
+  }
+
   render() {
-    if (this.props.input.length<3) return <ul></ul>;
+    if (this.props.input.length<3) return <ul className="search__popup-list--empty"></ul>;
     if (this.props.input !== this.state.prevInput) {
       this.setState({fetchedData: null, prevInput: this.props.input});
-      return <ul></ul>
+      return <ul className="search__popup-list--empty"></ul>
     }
     if (!this.state.fetchedData) {
-      let fetchdata = new XMLHttpRequest();
-      fetchdata.open('get','https://kitsu.io/api/edge/anime?filter[text]=' + this.props.input + '&page[limit]=5');
       const boundSetState = this.setState.bind(this);
-      fetchdata.onreadystatechange = function() {
-      if (this.readyState === 4 && this.status === 200) {
-        let result  = JSON.parse(fetchdata.responseText);
-        boundSetState({fetchedData: result});
-        }
-      };
-      fetchdata.send();
-      return (<div>Loading</div>);
+      let fetchdata = fetch('https://kitsu.io/api/edge/anime?filter[text]=' + this.props.input + '&page[limit]=5');
+      fetchdata.then(response => response.json()).then(result => boundSetState({fetchedData:result}));
+      return (<div className="search__popup-loading">Loading</div>);
     };
-    return (<ul>
+    return (<ul className="search__popup-list">
       {this.state.fetchedData.data.map((i,index) => {
         return (
-          <li key={index}><Link to={`/title/${i.id}`}>{i.attributes.canonicalTitle}</Link></li>
+          <li key={index} className="search__popup-item"><Link to={`/title/${i.id}`} onClick={this.onLinkClick}>{i.attributes.titles.en || i.attributes.canonicalTitle}</Link></li>
         )
       })}
       </ul>)

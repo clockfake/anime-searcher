@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import SearchPopup from './SearchPopup.js';
+import {Link} from 'react-router-dom';
 
 export default class SearchInput extends Component {
   constructor(props) {
@@ -7,6 +8,12 @@ export default class SearchInput extends Component {
     this.state = {
       inputValue: ''
     }
+    this.searchInput = React.createRef();
+  }
+
+  onLinkClick() {
+    this.searchInput.current.value = '';
+    this.setState({inputValue: ''});
   }
 
   handleInput(event) {
@@ -16,8 +23,9 @@ export default class SearchInput extends Component {
   render() {
     return(
       <div className='search__wrapper'>
-        <input className='search__input' onChange={(e) => this.handleInput(e)} type="text"/>
-        <SearchPopup input={this.state.inputValue}/>
+        <Link to='/'><div className='logo'>Weaboo</div></Link>
+        <input className='search__input' onChange={(e) => this.handleInput(e)} type="text" ref={() => this.searchInput} placeholder="Search for titles"/>
+        <SearchPopup input={this.state.inputValue} onLinkClick={this.onLinkClick}/>
       </div>
     )
   }
