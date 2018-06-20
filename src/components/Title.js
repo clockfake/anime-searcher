@@ -8,28 +8,30 @@ export default class Title extends Component {
       fetchedTitle: null,
     }
   }
-
   componentWillMount() {
     const boundSetState = this.setState.bind(this);
-    let fetchdata = fetch('https://kitsu.io/api/edge/anime/' + this.props.match.params.id);
-    fetchdata.then(response => response.json()).then(result => boundSetState({fetchedTitle:result}));
+    fetch('https://kitsu.io/api/edge/anime/' + this.props.match.params.id)
+      .then(response => response.json())
+      .then(result => boundSetState({fetchedTitle:result}));
   }
 
   componentDidUpdate() {
+    if (!this.state.fetchedTitle) return;
+    if (this.state.fetchedTitle.data.id !== this.props.match.params.id) {
+      this.setState({fetchedTitle: null});
       const boundSetState = this.setState.bind(this);
-      let fetchdata = fetch('https://kitsu.io/api/edge/anime/' + this.props.match.params.id);
-      fetchdata.then(response => response.json()).then(result => boundSetState({fetchedTitle:result}));
+      fetch('https://kitsu.io/api/edge/anime/' + this.props.match.params.id)
+        .then(response => response.json())
+        .then(result => boundSetState({fetchedTitle:result}));
+    }
   }
 
   render() {
     if (!this.state.fetchedTitle) return <p>Loading</p>;
-    if (this.state.fetchedTitle.data.id != this.props.match.params.id) {
-      this.setState({fetchedTitle: null});
-    }
     let info = this.state.fetchedTitle.data.attributes;
     return (
     <div className="title">
-      <div className="title__poster"><img src={info.posterImage.medium}/></div>
+      <div className="title__poster"><img src={info.posterImage.medium} alt={info.titles.en || info.canonicalTitle}/></div>
       <div className="title__info">
         <h2 className="title__header">{info.titles.en || info.canonicalTitle}</h2>
         <div className="title__plot">{info.synopsis}</div>
@@ -44,7 +46,7 @@ export default class Title extends Component {
         </div>
         <div className="title-section">
           <p className="title-section__heading">Rating:</p>
-          <p className="title-section__value">{info.averageRating}</p>
+          <p className="title-section__value">{info.averageRating}, Rank {info.ratingRank}</p>
         </div>
         <div className="title-section">
           <p className="title-section__heading">Popularity rank:</p>

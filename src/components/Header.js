@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
 import SearchPopup from './SearchPopup.js';
 import {Link} from 'react-router-dom';
+import './Header.css';
 
-export default class SearchInput extends Component {
+export default class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
       inputValue: ''
     }
     this.searchInput = React.createRef();
-  }
-
-  onLinkClick() {
-    this.searchInput.current.value = '';
-    this.setState({inputValue: ''});
+    this.props.history.listen((location,action) => {
+      this.setState({inputValue: ''});
+    });
   }
 
   handleInput(event) {
@@ -22,10 +21,10 @@ export default class SearchInput extends Component {
 
   render() {
     return(
-      <div className='search__wrapper'>
+      <div className='header'>
         <Link to='/'><div className='logo'>Weaboo</div></Link>
-        <input className='search__input' onChange={(e) => this.handleInput(e)} type="text" ref={() => this.searchInput} placeholder="Search for titles"/>
-        <SearchPopup input={this.state.inputValue} onLinkClick={this.onLinkClick}/>
+        <input className='search__input' value={this.state.inputValue} onChange={(e) => this.handleInput(e)} type="text" ref={() => this.searchInput} placeholder="Search for titles"/>
+        <SearchPopup input={this.state.inputValue}/>
       </div>
     )
   }

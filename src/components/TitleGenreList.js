@@ -10,8 +10,7 @@ export default class TitleGenreList extends Component {
 
   componentWillMount() {
     const boundSetState = this.setState.bind(this);
-    let fetchdata = fetch(this.props.url);
-    fetchdata.then(response => response.json()).then(result => boundSetState({fetchedGenres:result}));
+    fetch(this.props.url).then(response => response.json()).then(result => boundSetState({fetchedGenres:result}));
   }
 
   render() {
