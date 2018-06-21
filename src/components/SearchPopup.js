@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import queryString from 'query-string';
 
 export default class SearchPopup extends Component {
   constructor(props) {
@@ -27,12 +28,18 @@ export default class SearchPopup extends Component {
     if (!this.state.fetchedData) {
       return (<div className="search__popup-loading">Loading</div>);
     };
+    const searchLink = '/search?' + queryString.stringify({displayMode:'filter',filterText:this.props.input,offset:0});
     return (<ul className="search__popup-list">
       {this.state.fetchedData.data.map((i,index) => {
         return (
-          <li key={index} className="search__popup-item"><Link to={`/title/${i.id}`}>{i.attributes.titles.en || i.attributes.canonicalTitle}</Link></li>
+          <li key={index} className="search__popup-item">
+            <Link to={`/title/${i.id}`}>{i.attributes.titles.en || i.attributes.canonicalTitle}</Link>
+          </li>
         )
       })}
+      <li className="search__popup-to-form">
+        <Link to={searchLink}>More results</Link>
+      </li>
       </ul>)
   }
 }

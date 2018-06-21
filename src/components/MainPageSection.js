@@ -15,10 +15,10 @@ export default class MainPageSection extends Component {
         case 'top-airing': query = '?filter[status]=current&sort=popularityRank'; break;
         case 'top-rated': query = '?sort=ratingRank'; break;
         case 'top-popular' : query = '?sort=popularityRank'; break;
-        default: query = '?sort=+popularityRank'
+        default: query = '?sort=popularityRank'
       }
     const boundSetState = this.setState.bind(this);
-    let fetchdata = fetch(`https://kitsu.io/api/edge/anime${query}&page[limit]=8&page[offset]=0&fields[anime]=id,posterImage,titles,canonicalTitle`);
+    let fetchdata = fetch(`https://kitsu.io/api/edge/anime${query}&page[limit]=10&page[offset]=0&fields[anime]=id,posterImage,titles,canonicalTitle`);
     fetchdata.then(response => response.json()).then(result => boundSetState({fetchedData:result}));
   }
 
@@ -26,9 +26,9 @@ export default class MainPageSection extends Component {
     let str;
       switch (this.props.mode) {
         case 'top-airing': str = 'Top airing anime'; break;
-        case 'top-rated': str = 'Top rated anime of all time'; break;
-        case 'top-popular' : str = 'The most popular anime'; break;
-        default: str = 'The most popular anime'
+        case 'top-rated': str = 'Top rated anime'; break;
+        case 'top-popular' : str = 'Top popular anime'; break;
+        default: str = 'Anime titles'
       }
     if (!this.state.fetchedData) return <div>Loading</div>;
     return(

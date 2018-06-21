@@ -1,0 +1,39 @@
+.title {
+  display: flex;
+}
+
+.title__info {
+  min-height: 780px;
+  padding: 30px;
+}
+
+.title-section {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.title__section-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.title-section__heading {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.title__category {
+  display: inline-block;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  padding: 3px;
+  border: 1px solid #000000;
+  border-radius: 2px;
+}
+
+.logo {
+  font-size: 36px;
+  font-weight: 700;
+  color: #000000;
+}

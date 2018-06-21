@@ -1,0 +1,37 @@
+.main__item {
+  position: relative;
+  display: inline-block;
+  height: 402px;
+}
+
+.main__item--small {
+  height: 156px;
+}
+
+.main__desc-wrapper {
+  display: none;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  bottom: 0;
+  width: 100%;
+  height: 100px;
+  background-color: rgba(0,0,0,0.7);
+  color: #ffffff;
+  text-transform: uppercase;
+  font-size: 18px;
+}
+
+.main__desc-wrapper--small {
+  height: 70px;
+  font-size: 14px;
+}
+
+.main__desc {
+  margin: 0;
+  text-align: center;
+}
+
+.main__item:hover .main__desc-wrapper {
+  display: flex;
+}
