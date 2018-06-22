@@ -58,7 +58,7 @@ export default class SearchForm extends Component {
   }
 
   render() {
-    if (this.state.isError) return <div>Error, wrong link</div>;
+    if (this.state.isError || !this.offset || !this.displayMode) return <div>Error, wrong link</div>;
     if (!this.state.titleList) return <div>App loading</div>;
 
     const prevLink = queryString.stringify({displayMode:this.displayMode,offset:Number(this.offset)-16,filterText:this.filterText});
