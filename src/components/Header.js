@@ -23,6 +23,7 @@ export default class Header extends Component {
   handleKeyPress(event) {
     if(this.state.inputValue.length<3) return;
     if (event.key === 'Enter') this.setState({shouldRedirect:true});
+    if (event.key === 'Escape') this.setState({inputValue:''});
   }
 
   render() {
@@ -32,7 +33,7 @@ export default class Header extends Component {
     }
 
     return(
-      <div className='header  row  justify-content-between'>
+      <div className='header  row  justify-content-between  no-gutters'>
         <div className="logo  col-sm-4"><Link to='/'><span>Weaboo</span></Link></div>
         <div className='search  col-sm-4'>
         <input

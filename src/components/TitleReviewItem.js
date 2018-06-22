@@ -18,7 +18,7 @@ export default class TitleReviewItem extends Component {
         <p className="title__review-author">Source: {this.props.author}</p>
         <p className="title__review-content" dangerouslySetInnerHTML={{__html: postText}}/>
 
-        {this.props.content.length > 800 && <button onClick={() => this.setState(prevState => ({show: !prevState.show}))}>{this.state.show ? 'Show less' : 'Show more'}</button>}
+        {this.props.content.length > 800 && <button className="btn btn-secondary" onClick={() => this.setState(prevState => ({show: !prevState.show}))}>{this.state.show ? 'Show less' : 'Show more'}</button>}
       </li>
     )
   }

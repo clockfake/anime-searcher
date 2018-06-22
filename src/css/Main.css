@@ -43,3 +43,10 @@
 .main__list {
   width: 1137px;
 }
+
+.main__button-section {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
+}

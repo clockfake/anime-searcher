@@ -34,8 +34,8 @@ export default class Title extends Component {
     return (
     <div className="title">
       <div className="title__main  row">
-        <div className="title__poster  col"><img src={info.posterImage.medium} alt={info.titles.en || info.canonicalTitle}/></div>
-        <div className="title__info  col">
+        <div className="title__poster  col-md"><img src={info.posterImage.medium} alt={info.titles.en || info.canonicalTitle}/></div>
+        <div className="title__info  col-md">
         <h2 className="title__header">{info.titles.en || info.canonicalTitle}</h2>
         <div className="title__plot">{info.synopsis}</div>
         <div className="title__section-wrapper">

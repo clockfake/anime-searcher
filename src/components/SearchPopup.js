@@ -18,7 +18,7 @@ export default class SearchPopup extends Component {
     }
     if (!this.state.fetchedData) {
       const boundSetState = this.setState.bind(this);
-      let fetchdata = fetch('https://kitsu.io/api/edge/anime?filter[text]=' + this.props.input + '&page[limit]=5');
+      let fetchdata = fetch('https://kitsu.io/api/edge/anime?filter[text]=' + this.props.input + '&page[limit]=5&fields[anime]=id,titles,canonicalTitle,showType');
       fetchdata.then(response => response.json()).then(result => boundSetState({fetchedData:result}));
     }
   }
@@ -32,12 +32,14 @@ export default class SearchPopup extends Component {
     return (<ul className="search__popup-list">
       {this.state.fetchedData.data.map((i,index) => {
         return (
-          <li key={index} className="search__popup-item">
-            <Link to={`/title/${i.id}`}>{i.attributes.titles.en || i.attributes.canonicalTitle}</Link>
+          <li key={index} className="search__popup-item  list-group-item">
+            <Link className="search__item-info-wrapper" to={`/title/${i.id}`}>
+            <span>{i.attributes.titles.en || i.attributes.canonicalTitle}</span>
+            <span className="badge badge-secondary">{i.attributes.showType}</span></Link>
           </li>
         )
       })}
-      <li className="search__popup-to-form">
+      <li className="search__popup-to-form  list-group-item">
         <Link to={searchLink}>More results</Link>
       </li>
       </ul>)

@@ -4,6 +4,7 @@ import Main from './components/Main.js';
 import Title from './components/Title.js';
 import Header from './components/Header.js';
 import SearchForm from './components/SearchForm.js';
+import './css/App.css';
 
 class App extends Component {
   render() {

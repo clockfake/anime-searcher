@@ -17,7 +17,6 @@
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
-  padding: 0 !important;
   position: relative;
 }
 
@@ -32,7 +31,7 @@
   right: 0;
   left: 0;
   height: 200px;
-  background-color: #eeeeee;
+  background-color: #ffffff;
   color: #000000;
   display: flex;
   justify-content: center;
@@ -56,7 +55,7 @@
 }
 
 .search__popup-item {
-  background-color: #eeeeee;
+  background-color: #ffffff;
   color: #000000;
   margin-top: -1px;
   padding: 8px;
@@ -64,10 +63,15 @@
 }
 
 .search__popup-to-form {
-  background-color: #eeeeee;
+  background-color: #ffffff;
   color: #000000;
   margin-top: -1px;
   padding: 5px;
   border: 1px solid grey;
   font-size: 11px;
+}
+
+.search__item-info-wrapper {
+  display: flex;
+  justify-content: space-between;
 }
