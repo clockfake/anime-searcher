@@ -3,15 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "query-string": "^6.1.0",
+    "query-string": "^5.1.1",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
-    "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
-    "react-router-redux": "^4.0.8",
-    "react-scripts": "1.1.4",
-    "redux": "^4.0.0",
-    "redux-devtools-extension": "^2.13.2"
+    "react-scripts": "1.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
