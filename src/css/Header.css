@@ -1,21 +1,36 @@
 .header {
+  padding-top: 40px;
+  padding-bottom: 30px;
+}
+
+.logo {
+  font-size: 36px;
+  font-weight: 700;
+}
+
+.logo a, .logo a:hover {
+  color: #000000;
+  text-decoration: none;
+}
+
+.search {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding: 0 !important;
   position: relative;
-  height: 140px;
 }
 
 .search__input {
-  width: 300px;
+  width: 100%;
   padding: 8px;
 }
 
 .search__popup-loading {
   position: absolute;
-  top: 88px;
+  top: 53px;
   right: 0;
-  width: 300px;
+  left: 0;
   height: 200px;
   background-color: #eeeeee;
   color: #000000;
@@ -26,9 +41,10 @@
 
 .search__popup-list {
   position: absolute;
-  z-index: 10;
-  top: 88px;
+  z-index: 1000;
+  top: 53px;
   right: 0;
+  left: 0;
   min-height: 200px;
   margin: 0;
   padding: 0;
@@ -42,7 +58,6 @@
 .search__popup-item {
   background-color: #eeeeee;
   color: #000000;
-  width: 300px;
   margin-top: -1px;
   padding: 8px;
   border: 1px solid grey;
@@ -51,7 +66,6 @@
 .search__popup-to-form {
   background-color: #eeeeee;
   color: #000000;
-  width: 306px;
   margin-top: -1px;
   padding: 5px;
   border: 1px solid grey;

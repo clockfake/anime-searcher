@@ -82,7 +82,7 @@ export default class SearchForm extends Component {
       <h2>{str}</h2>
       <p>Page {this.offset/16+1}</p>
       <div className="main__button-section">
-        <Link to={`/search/?{prevLink}`} onClick={(e) => this.preventPrev(e)}>
+        <Link to={`/search/?${prevLink}`} onClick={(e) => this.preventPrev(e)}>
           <button className="main__button">Prev</button>
         </Link>
         <Link to={`/search/?${nextLink}`} onClick={(e) => this.preventNext(e)}>

@@ -34,10 +34,10 @@ export default class MainPageSection extends Component {
     return(
       <div className='main-section'>
         <h3>{str}</h3>
-        <div className='main-list-container'>
+        <div className='main-list-container  row'>
         {this.state.fetchedData.data.map( (i,index) => {
           return (
-          <div key={index} className="main__item  main__item--small">
+          <div key={index} className="main__item  main__item--small  col">
             <Link to={`/title/${i.id}`}>
               <img src={i.attributes.posterImage.tiny} alt={i.attributes.titles.en || i.attributes.canonicalTitle}/>
               <div className="main__desc-wrapper  main__desc-wrapper--small">
