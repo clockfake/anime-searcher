@@ -38,7 +38,7 @@ export default class Header extends Component {
         <div className='search  col-sm-4'>
         <input
           type="text"
-          className="search__input"
+          className="search__input  form-control"
           value={this.state.inputValue}
           onChange={e => this.handleInput(e)}
           onKeyDown={e => this.handleKeyPress(e)}

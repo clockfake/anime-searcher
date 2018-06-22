@@ -38,6 +38,11 @@
   margin: 0;
 }
 
+.title-section__youtube {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 .title__category {
   display: inline-block;
   margin: 10px 0 10px 10px;

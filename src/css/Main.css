@@ -1,3 +1,7 @@
+.main-section {
+  margin-bottom: 30px;
+}
+
 .main__item {
   position: relative;
   display: inline-block;

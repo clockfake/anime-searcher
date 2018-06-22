@@ -1,28 +1,29 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import decoder from '../codeQuery.js';
 
 export default class MainPageSection extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isError: false,
       fetchedData: null
     }
+    this.setState = this.setState.bind(this);
   }
 
-  componentWillMount() {
-    let query;
-      switch (this.props.mode) {
-        case 'top-airing': query = '?filter[status]=current&sort=popularityRank'; break;
-        case 'top-rated': query = '?sort=ratingRank'; break;
-        case 'top-popular' : query = '?sort=popularityRank'; break;
-        default: query = '?sort=popularityRank'
-      }
-    const boundSetState = this.setState.bind(this);
-    let fetchdata = fetch(`https://kitsu.io/api/edge/anime${query}&page[limit]=10&page[offset]=0&fields[anime]=id,posterImage,titles,canonicalTitle`);
-    fetchdata.then(response => response.json()).then(result => boundSetState({fetchedData:result}));
+  componentDidMount() {
+    fetch(`https://kitsu.io/api/edge/anime${decoder(this.props.mode)}&page[limit]=10&page[offset]=0&fields[anime]=id,posterImage,titles,canonicalTitle`)
+      .then(response => {
+      if (response.status!==200) {
+        this.setState({isError: true});
+        return null;
+    } return response.json()}).then(result => this.setState({fetchedData:result}))
+      .catch(() => this.setState({isError: true}));
   }
 
   render() {
+    if (this.state.isError) return <div>Error</div>;
     let str;
       switch (this.props.mode) {
         case 'top-airing': str = 'Top airing anime'; break;
@@ -35,9 +36,9 @@ export default class MainPageSection extends Component {
       <div className='main-section'>
         <h3>{str}</h3>
         <div className='main-list-container  row  no-gutters'>
-        {this.state.fetchedData.data.map( (i,index) => {
+        {this.state.fetchedData.data.map(i => {
           return (
-          <div key={index} className="main__item  main__item--small  col">
+          <div key={i.id} className="main__item  main__item--small  col">
             <Link to={`/title/${i.id}`}>
               <img src={i.attributes.posterImage.tiny} alt={i.attributes.titles.en || i.attributes.canonicalTitle}/>
               <div className="main__desc-wrapper  main__desc-wrapper--small">

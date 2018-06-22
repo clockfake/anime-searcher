@@ -8,27 +8,39 @@ export default class Title extends Component {
     super(props);
     this.state = {
       fetchedTitle: null,
+      isError: false
     }
+    this.setState = this.setState.bind(this);
   }
-  componentWillMount() {
-    const boundSetState = this.setState.bind(this);
+
+  componentDidMount() {
     fetch('https://kitsu.io/api/edge/anime/' + this.props.match.params.id)
-      .then(response => response.json())
-      .then(result => boundSetState({fetchedTitle:result}));
+      .then(response => {
+      if (response.status!==200) {
+        this.setState({isError: true});
+        return null;
+    } return response.json()})
+      .then(result => this.setState({fetchedTitle:result}))
+      .catch(() => this.setState({isError:true}));
   }
 
   componentDidUpdate() {
     if (!this.state.fetchedTitle) return;
     if (this.state.fetchedTitle.data.id !== this.props.match.params.id) {
       this.setState({fetchedTitle: null});
-      const boundSetState = this.setState.bind(this);
       fetch('https://kitsu.io/api/edge/anime/' + this.props.match.params.id)
-        .then(response => response.json())
-        .then(result => boundSetState({fetchedTitle:result}));
+        .then(response => {
+        if (response.status!==200) {
+          this.setState({isError: true});
+          return null;
+      } return response.json()})
+        .then(result => this.setState({fetchedTitle:result}))
+        .catch(() => this.setState({isError:true}));
     }
   }
 
   render() {
+    if (this.state.isError) return <p>Error</p>;
     if (!this.state.fetchedTitle) return <p>Loading</p>;
     let info = this.state.fetchedTitle.data.attributes;
     return (
@@ -56,7 +68,8 @@ export default class Title extends Component {
           <p className="title-section__value">{info.popularityRank}</p>
         </div>
         </div>
-        <TitleGenreList url={`https://kitsu.io/api/edge/anime/${this.state.fetchedTitle.data.id}/genres`}/>
+        {info.youtubeVideoId && <a className="title-section__youtube btn btn-primary" href={`https://www.youtube.com/watch?v=${info.youtubeVideoId}`}>Watch trailer on Youtube</a>}
+        <TitleGenreList url={`https://kitsu.io/api/edge/anime/${this.state.fetchedTitle.data.id}/categories`}/>
         </div>
       </div>
       <TitleReviews url={`https://kitsu.io/api/edge/anime/${this.props.match.params.id}/reviews?sort=-likesCount`}/>

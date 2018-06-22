@@ -7,11 +7,16 @@ export default class TitleReviews extends Component {
     this.state = {
       reviews: null
     }
+    this.setState = this.setState.bind(this);
   }
 
-  componentWillMount() {
-    const boundSetState = this.setState.bind(this);
-    fetch(this.props.url).then(response => response.json()).then(result => boundSetState({reviews:result}));
+  componentDidMount() {
+    fetch(this.props.url).then(response => {
+    if (response.status!==200) {
+      this.setState({isError: true});
+      return null;
+  } return response.json()}).then(result => this.setState({reviews:result}))
+      .catch(() => this.setState({isError:true}));
   }
 
   render() {
@@ -19,9 +24,9 @@ export default class TitleReviews extends Component {
     return (
       <ul className="title__review-list">
       {this.state.reviews.data.length > 0 && <h3>Popular reviews</h3>}
-      {this.state.reviews.data.slice(0,3).map((i,index) => {
+      {this.state.reviews.data.slice(0,3).map(i => {
         return(
-          <TitleReviewItem key={index} author={i.attributes.source} content={i.attributes.contentFormatted} />
+          <TitleReviewItem key={i.id} author={i.attributes.source} content={i.attributes.contentFormatted} />
         )
       })}
       </ul>
