@@ -3,8 +3,7 @@
 }
 
 .title__poster {
-  width: 390px;
-  height: 554px;
+  overflow:hidden;
 }
 
 .title__info {

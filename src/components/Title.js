@@ -45,7 +45,7 @@ export default class Title extends Component {
     let info = this.state.fetchedTitle.data.attributes;
     return (
     <div className="title">
-      <div className="title__main  row">
+      <div className="title__main  row  no-gutters">
         <div className="title__poster  col-md"><img src={info.posterImage.medium} alt={info.titles.en || info.canonicalTitle}/></div>
         <div className="title__info  col-md">
         <h2 className="title__header">{info.titles.en || info.canonicalTitle}</h2>
