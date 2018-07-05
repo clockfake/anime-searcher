@@ -31,7 +31,7 @@ export default class MainPageSection extends Component {
         case 'top-popular' : str = 'Top popular anime'; break;
         default: str = 'Anime titles'
       }
-    if (!this.state.fetchedData) return <div>Loading</div>;
+    if (!this.state.fetchedData) return <div className="main-section--loading"><div className="lds-ring"><div></div><div></div><div></div><div></div></div></div>;
     return(
       <div className='main-section'>
         <h3>{str}</h3>

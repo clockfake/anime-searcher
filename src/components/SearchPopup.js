@@ -31,7 +31,7 @@ export default class SearchPopup extends Component {
   render() {
     if (this.props.input.length<3) return <ul className="search__popup-list--empty"></ul>;
     if (this.state.isError) return <div className="search__popup-loading">Error</div>;
-    if (!this.state.fetchedData) return <div className="search__popup-loading">Loading</div>;
+    if (!this.state.fetchedData) return <div className="search__popup-loading"><div className="lds-ring"><div></div><div></div><div></div><div></div></div></div>;
     if (this.state.fetchedData && this.state.fetchedData.data.length === 0) {
       return <div className="search__popup-loading">No results</div>;
     };

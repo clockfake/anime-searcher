@@ -5,7 +5,8 @@ export default class TitleReviews extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      reviews: null
+      reviews: null,
+      isError: false
     }
     this.setState = this.setState.bind(this);
   }
@@ -20,6 +21,7 @@ export default class TitleReviews extends Component {
   }
 
   render() {
+    if (this.state.isError) return <div>Error fetching server</div>;
     if (!this.state.reviews) return <div>Loading</div>;
     return (
       <ul className="title__review-list">

@@ -2,6 +2,14 @@
   margin-bottom: 30px;
 }
 
+.main-section--loading {
+  margin-bottom: 30px;
+  min-height: 225px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .main__item {
   position: relative;
   display: inline-block;
