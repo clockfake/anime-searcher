@@ -32,20 +32,19 @@ export default class SearchPopup extends Component {
     if (this.props.input.length<3) return <ul className="search__popup-list--empty"></ul>;
     if (this.state.isError) return <div className="search__popup-loading">Error</div>;
     if (!this.state.fetchedData) return <div className="search__popup-loading"><div className="lds-ring"><div></div><div></div><div></div><div></div></div></div>;
-    if (this.state.fetchedData && this.state.fetchedData.data.length === 0) {
+    if (this.state.fetchedData && !this.state.fetchedData.data.length) {
       return <div className="search__popup-loading">No results</div>;
     };
     const searchLink = '/search?' + queryString.stringify({displayMode:'filter',filterText:this.props.input,offset:0});
     return (<ul className="search__popup-list">
-      {this.state.fetchedData.data.map(i => {
-        return (
+      {this.state.fetchedData.data.map(i => (
           <li key={i.id} className="search__popup-item  list-group-item">
             <Link className="search__item-info-wrapper" to={`/title/${i.id}`}>
             <span>{i.attributes.titles.en || i.attributes.canonicalTitle}</span>
             <span className="badge badge-secondary">{i.attributes.showType}</span></Link>
           </li>
         )
-      })}
+      )}
       <li className="search__popup-to-form  list-group-item">
         <Link to={searchLink}>More results</Link>
       </li>

@@ -16,14 +16,18 @@ export default class Header extends Component {
     });
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.shouldRedirect === true) this.setState({shouldRedirect: false});
+  }
+
   handleInput(event) {
     this.setState({inputValue: event.target.value});
   }
 
   handleKeyPress(event) {
     if(this.state.inputValue.length<3) return;
-    if (event.key === 'Enter') this.setState({shouldRedirect:true});
-    if (event.key === 'Escape') this.setState({inputValue:''});
+    if (event.key === 'Enter') {this.setState({shouldRedirect:true})} else
+    if (event.key === 'Escape') {this.setState({inputValue:''})}
   }
 
   render() {

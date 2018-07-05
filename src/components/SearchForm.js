@@ -88,7 +88,7 @@ export default class SearchForm extends Component {
         return (
         <div key={i.id} className="main__item">
           <Link to={`/title/${i.id}`}>
-            <img src={i.attributes.posterImage.small} alt={i.attributes.titles.en || i.attributes.canonicalTitle}/>
+            <img src={i.attributes.posterImage? i.attributes.posterImage.small : ''} alt={i.attributes.titles.en || i.attributes.canonicalTitle}/>
             <div className="main__desc-wrapper">
               <span className="main__desc">{i.attributes.titles.en || i.attributes.canonicalTitle}</span>
             </div>
