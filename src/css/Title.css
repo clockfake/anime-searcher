@@ -86,7 +86,7 @@
 .modal-window-wrapper {
   position: fixed;
   z-index: 1010;
-  top: 40px;
+  top: 80px;
   left: 0;
   right: 0;
   background-color: transparent;
@@ -95,8 +95,9 @@
 .modal-window {
   display: block;
   margin: 0 auto;
-  width: 100%;
-  max-width: 891px;
-  height: 500px;
+  width: 80vw;
+  height: 45vw;
+  max-width: 893px;
+  max-height: 500px;
   border: none;
 }
