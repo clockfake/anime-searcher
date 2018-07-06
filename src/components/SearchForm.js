@@ -77,7 +77,7 @@ export default class SearchForm extends Component {
       <p>Page {this.offset/16+1}</p>
       <div className="main__button-section">
         <Link to={`/search/?${prevLink}`} onClick={(e) => this.preventPrev(e)}>
-          <button className="btn btn-info">Prev</button>
+          <button className={`${this.offset <=0 ? 'btn btn-info disabled' : 'btn btn-info'}`}>Prev</button>
         </Link>
         <Link to={`/search/?${nextLink}`} onClick={(e) => this.preventNext(e)}>
         <button className="btn btn-info">Next</button>

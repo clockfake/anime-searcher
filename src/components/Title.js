@@ -80,8 +80,16 @@ export default class Title extends Component {
       <TitleReviews url={`https://kitsu.io/api/edge/anime/${this.props.match.params.id}/reviews?sort=-likesCount`}/>
 
       {this.state.shouldShowModal && <div className="modal-overlay" onClick={() => this.toggleModal()}></div>}
-      {this.state.shouldShowModal && <div className="modal-window-wrapper">
-      <iframe className="modal-window" src={`https://www.youtube.com/embed/${info.youtubeVideoId}`}>
+      {this.state.shouldShowModal && <div className="modal-window-wrapper" onClick={() => this.toggleModal()}>
+      <iframe
+        title={info.youtubeVideoId}
+        className="modal-window"
+        src={`https://www.youtube.com/embed/${info.youtubeVideoId}`}
+        allowfullscreen="allowfullscreen"
+        mozallowfullscreen="mozallowfullscreen"
+        msallowfullscreen="msallowfullscreen"
+        oallowfullscreen="oallowfullscreen"
+        webkitallowfullscreen="webkitallowfullscreen">
       </iframe>
       </div>}
     </div>
