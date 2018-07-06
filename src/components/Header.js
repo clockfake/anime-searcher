@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import SearchPopup from './SearchPopup.js';
-import {Link, Redirect} from 'react-router-dom';
-import queryString from 'query-string';
+import {Link} from 'react-router-dom';
 import '../css/Header.css';
 
 export default class Header extends Component {
@@ -9,7 +8,8 @@ export default class Header extends Component {
     super(props);
     this.state = {
       inputValue: '',
-      shouldRedirect: false
+      shouldRedirect: false,
+      activeItem: null
     }
     this.props.history.listen((location,action) => {
       this.setState({inputValue: ''});
@@ -17,7 +17,7 @@ export default class Header extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.shouldRedirect === true) this.setState({shouldRedirect: false});
+    if (prevState.shouldRedirect === true) this.setState({shouldRedirect: false, activeItem: null});
   }
 
   handleInput(event) {
@@ -26,16 +26,25 @@ export default class Header extends Component {
 
   handleKeyPress(event) {
     if(this.state.inputValue.length<3) return;
-    if (event.key === 'Enter') {this.setState({shouldRedirect:true})} else
-    if (event.key === 'Escape') {this.setState({inputValue:''})}
+    switch(event.key) {
+      case 'Enter': this.setState({shouldRedirect:true}); break;
+      case 'Escape': this.setState({inputValue:''}); break;
+      case 'ArrowDown': {
+        if (this.state.activeItem === null) {this.setState({activeItem:0})} else {
+          if (this.state.activeItem < 4) this.setState((prevState) => {return {activeItem:++prevState.activeItem}});
+        }
+      break;
+      }
+      case 'ArrowUp': {
+        if (this.state.activeItem === 0) {this.setState({activeItem:null})} else {
+          if (this.state.activeItem !== null) this.setState((prevState) => {return {activeItem:--prevState.activeItem}})}
+      break;
+      }
+      default: break;
+    }
   }
 
   render() {
-    if (this.state.shouldRedirect && this.state.inputValue.length) {
-      const searchLink = '/search?' + queryString.stringify({displayMode:'filter',filterText:this.state.inputValue,offset:0});
-      return (<Redirect to={searchLink}/>);
-    }
-
     return(
       <div className='header  row  justify-content-between  no-gutters'>
         <div className="logo  col-sm-4"><Link to='/'><span>Weaboo</span></Link></div>
@@ -47,7 +56,7 @@ export default class Header extends Component {
           onChange={e => this.handleInput(e)}
           onKeyDown={e => this.handleKeyPress(e)}
           placeholder="Search for titles"/>
-        <SearchPopup input={this.state.inputValue}/>
+        <SearchPopup input={this.state.inputValue} activeItem={this.state.activeItem} shouldRedirect={this.state.shouldRedirect}/>
         </div>
       </div>
     )

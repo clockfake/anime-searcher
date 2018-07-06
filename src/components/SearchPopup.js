@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import queryString from 'query-string';
 
 export default class SearchPopup extends Component {
@@ -32,19 +32,30 @@ export default class SearchPopup extends Component {
     if (this.props.input.length<3) return <ul className="search__popup-list--empty"></ul>;
     if (this.state.isError) return <div className="search__popup-loading">Error</div>;
     if (!this.state.fetchedData) return <div className="search__popup-loading"><div className="lds-ring"><div></div><div></div><div></div><div></div></div></div>;
+
+    if (this.props.shouldRedirect) {
+      let searchLink;
+      if (this.props.activeItem === null) {searchLink = '/search?' + queryString.stringify({displayMode:'filter',filterText:this.state.inputValue,offset:0})} else {
+        searchLink = `/title/${this.state.fetchedData.data[this.props.activeItem].id}`;
+      }
+      return (<Redirect to={searchLink}/>);
+    }
+
     if (this.state.fetchedData && !this.state.fetchedData.data.length) {
       return <div className="search__popup-loading">No results</div>;
     };
     const searchLink = '/search?' + queryString.stringify({displayMode:'filter',filterText:this.props.input,offset:0});
     return (<ul className="search__popup-list">
-      {this.state.fetchedData.data.map(i => (
-          <li key={i.id} className="search__popup-item  list-group-item">
+      {this.state.fetchedData.data.map((i,index) => {
+        let str = `search__popup-item  list-group-item ${this.props.activeItem === index ? 'active' : ''}`;
+        return (
+          <li key={i.id} className={str}>
             <Link className="search__item-info-wrapper" to={`/title/${i.id}`}>
             <span>{i.attributes.titles.en || i.attributes.canonicalTitle}</span>
             <span className="badge badge-secondary">{i.attributes.showType}</span></Link>
           </li>
         )
-      )}
+      })}
       <li className="search__popup-to-form  list-group-item">
         <Link to={searchLink}>More results</Link>
       </li>
