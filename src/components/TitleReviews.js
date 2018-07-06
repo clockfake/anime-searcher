@@ -22,7 +22,7 @@ export default class TitleReviews extends Component {
 
   render() {
     if (this.state.isError) return <div>Error fetching server</div>;
-    if (!this.state.reviews) return <div>Loading</div>;
+    if (!this.state.reviews) return <div className="main-section--loading"><div className="lds-ring"><div></div><div></div><div></div><div></div></div></div>;
     return (
       <ul className="title__review-list">
       {this.state.reviews.data.length > 0 && <h3>Popular reviews</h3>}

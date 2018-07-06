@@ -8,7 +8,8 @@ export default class Title extends Component {
     super(props);
     this.state = {
       fetchedTitle: null,
-      isError: false
+      isError: false,
+      shouldShowModal: false
     }
     this.setState = this.setState.bind(this);
   }
@@ -37,6 +38,10 @@ export default class Title extends Component {
         .then(result => this.setState({fetchedTitle:result}))
         .catch(() => this.setState({isError:true}));
     }
+  }
+
+  toggleModal() {
+    this.setState((prevState) => {return {shouldShowModal: !prevState.shouldShowModal}});
   }
 
   render() {
@@ -68,11 +73,17 @@ export default class Title extends Component {
           <p className="title-section__value">{info.popularityRank}</p>
         </div>
         </div>
-        {info.youtubeVideoId && <a className="title-section__youtube btn btn-primary" href={`https://www.youtube.com/watch?v=${info.youtubeVideoId}`}>Watch trailer on Youtube</a>}
+        {info.youtubeVideoId && <button className="title-section__youtube btn btn-primary" onClick={() => this.toggleModal()}>Watch trailer on Youtube</button>}
         <TitleGenreList url={`https://kitsu.io/api/edge/anime/${this.state.fetchedTitle.data.id}/categories`}/>
         </div>
       </div>
       <TitleReviews url={`https://kitsu.io/api/edge/anime/${this.props.match.params.id}/reviews?sort=-likesCount`}/>
+
+      {this.state.shouldShowModal && <div className="modal-overlay" onClick={() => this.toggleModal()}></div>}
+      {this.state.shouldShowModal && <div className="modal-window-wrapper">
+      <iframe className="modal-window" src={`https://www.youtube.com/embed/${info.youtubeVideoId}`}>
+      </iframe>
+      </div>}
     </div>
   )
   }
