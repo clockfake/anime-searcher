@@ -35,7 +35,7 @@ export default class MainPageSection extends Component {
     return(
       <div className='main-section'>
         <h3>{str}</h3>
-        <div className='main-list-container  row  no-gutters'>
+        <div className='main-list-container  row  no-gutters  justify-content-start'>
         {this.state.fetchedData.data.map(i => {
           return (
           <div key={i.id} className="main__item  main__item--small  col">

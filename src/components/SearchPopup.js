@@ -35,7 +35,7 @@ export default class SearchPopup extends Component {
 
     if (this.props.shouldRedirect) {
       let searchLink;
-      if (this.props.activeItem === null) {searchLink = '/search?' + queryString.stringify({displayMode:'filter',filterText:this.state.inputValue,offset:0})} else {
+      if (this.props.activeItem === null || this.props.activeItem === 5) {searchLink = '/search?' + queryString.stringify({displayMode:'filter',filterText:this.props.input,offset:0})} else {
         searchLink = `/title/${this.state.fetchedData.data[this.props.activeItem].id}`;
       }
       return (<Redirect to={searchLink}/>);
@@ -56,7 +56,7 @@ export default class SearchPopup extends Component {
           </li>
         )
       })}
-      <li className="search__popup-to-form  list-group-item">
+      <li className={`search__popup-to-form  list-group-item  ${this.props.activeItem === 5 ? 'active' : ''}`}>
         <Link to={searchLink}>More results</Link>
       </li>
       </ul>)
