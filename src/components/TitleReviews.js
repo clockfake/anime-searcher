@@ -26,9 +26,9 @@ export default class TitleReviews extends Component {
     return (
       <ul className="title__review-list">
       {this.state.reviews.data.length > 0 && <h3>Popular reviews</h3>}
-      {this.state.reviews.data.slice(0,3).map(i => {
+      {this.state.reviews.data.slice(0,5).map(i => {
         return(
-          <TitleReviewItem key={i.id} author={i.attributes.source} content={i.attributes.contentFormatted} />
+          <TitleReviewItem key={i.id} author={i.attributes.source} content={i.attributes.contentFormatted} likes={i.attributes.likesCount} date={i.attributes.updatedAt}/>
         )
       })}
       </ul>

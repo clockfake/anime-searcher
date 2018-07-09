@@ -35,7 +35,9 @@ export default class SearchPopup extends Component {
 
     if (this.props.shouldRedirect) {
       let searchLink;
-      if (this.props.activeItem === null || this.props.activeItem === 5) {searchLink = '/search?' + queryString.stringify({displayMode:'filter',filterText:this.props.input,offset:0})} else {
+      if (this.props.activeItem === null || this.props.activeItem === 5) {
+        searchLink = '/search?' + queryString.stringify({displayMode:'filter',filterText:this.props.input,offset:0})
+      } else {
         searchLink = `/title/${this.state.fetchedData.data[this.props.activeItem].id}`;
       }
       return (<Redirect to={searchLink}/>);
@@ -46,16 +48,14 @@ export default class SearchPopup extends Component {
     };
     const searchLink = '/search?' + queryString.stringify({displayMode:'filter',filterText:this.props.input,offset:0});
     return (<ul className="search__popup-list">
-      {this.state.fetchedData.data.map((i,index) => {
-        let str = `search__popup-item  list-group-item ${this.props.activeItem === index ? 'active' : ''}`;
-        return (
-          <li key={i.id} className={str}>
+      {this.state.fetchedData.data.map((i,index) => (
+          <li key={i.id} className={`search__popup-item  list-group-item ${this.props.activeItem === index ? 'active' : ''}`}>
             <Link className="search__item-info-wrapper" to={`/title/${i.id}`}>
             <span>{i.attributes.titles.en || i.attributes.canonicalTitle}</span>
             <span className="badge badge-secondary">{i.attributes.showType}</span></Link>
           </li>
         )
-      })}
+      )}
       <li className={`search__popup-to-form  list-group-item  ${this.props.activeItem === 5 ? 'active' : ''}`}>
         <Link to={searchLink}>More results</Link>
       </li>

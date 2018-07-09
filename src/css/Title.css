@@ -17,6 +17,10 @@
   text-transform: uppercase;
 }
 
+.title__plot {
+  margin-bottom: 20px;
+}
+
 .title-section {
   width: 50%;
   display: flex;
@@ -58,10 +62,23 @@
 }
 
 .title__review-item {
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #000000;
+}
+
+.title__review-item:last-child {
+  border-bottom: none;
 }
 
 .title__review-author {
   margin-right: 15px;
+  margin-bottom: 10px;
+}
+
+.title__review-date {
+  font-size: 13px;
+  margin-bottom: 10px;
 }
 
 .title__review-content {

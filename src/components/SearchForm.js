@@ -28,10 +28,9 @@ export default class SearchForm extends Component {
     .catch(() => this.setState({isError: true}));
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate() {
     const currentOptions = queryString.parse(this.props.location.search);
-    const prevOptions = queryString.parse(prevProps.location.search);
-    if (currentOptions.displayMode !== prevOptions.displayMode || currentOptions.offset !== prevOptions.offset || currentOptions.filterText !== prevOptions.filterText) {
+    if (currentOptions.displayMode !== this.displayMode || currentOptions.offset !== this.offset || currentOptions.filterText !== this.filterText) {
       this.displayMode = currentOptions.displayMode;
       this.offset = currentOptions.offset;
       this.filterText = currentOptions.filterText && currentOptions.filterText;
@@ -84,8 +83,7 @@ export default class SearchForm extends Component {
         </Link>
       </div>
 
-      {this.state.titleList.data.map( (i) => {
-        return (
+      {this.state.titleList.data.map( i => (
         <div key={i.id} className="main__item">
           <Link to={`/title/${i.id}`}>
             <img src={i.attributes.posterImage? i.attributes.posterImage.small : ''} alt={i.attributes.titles.en || i.attributes.canonicalTitle}/>
@@ -93,8 +91,8 @@ export default class SearchForm extends Component {
               <span className="main__desc">{i.attributes.titles.en || i.attributes.canonicalTitle}</span>
             </div>
           </Link>
-      </div>)})
-    }
+      </div>))
+      }
     </div>
   )
   }
