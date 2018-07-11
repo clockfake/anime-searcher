@@ -85,7 +85,7 @@ export default class Title extends Component {
         title={info.youtubeVideoId}
         className="modal-window"
         src={`https://www.youtube.com/embed/${info.youtubeVideoId}`}
-        allowfullscreen="allowfullscreen"
+        allowFullScreen="allowfullscreen"
         mozallowfullscreen="mozallowfullscreen"
         msallowfullscreen="msallowfullscreen"
         oallowfullscreen="oallowfullscreen"

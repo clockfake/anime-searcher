@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
+import queryString from 'query-string';
 
 export default class TitleGenreList extends Component {
   constructor(props) {
@@ -26,7 +28,10 @@ export default class TitleGenreList extends Component {
       <div className="title__categories">
       Categories:
       {this.state.fetchedGenres.data.map(i => {
-        return <span className="title__category" key={i.id}>{i.attributes.title}</span>
+        const linkStr = '/search?' + queryString.stringify({displayMode:'filter-category',filterText:i.attributes.title,offset:0});
+        return (
+        <Link to={linkStr} key={i.id} className="btn btn-light title__category">{i.attributes.title}</Link>
+        )
       })}
       </div>
     )

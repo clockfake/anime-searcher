@@ -3,7 +3,8 @@ export default function decoder(text,filterText) {
     'top-airing': '?filter[status]=current&sort=popularityRank',
     'top-rated': '?sort=ratingRank',
     'top-popular': '?sort=popularityRank',
-    'filter': '?filter[text]='+filterText
+    'filter': '?filter[text]='+filterText,
+    'filter-category': '?filter[categories]='+filterText+'&sort=popularityRank'
   }
   return obj[text];
 }

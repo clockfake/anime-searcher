@@ -47,27 +47,20 @@ export default class SearchForm extends Component {
     }
   }
 
-  preventPrev(event) {
-    if (this.offset <= 0) event.preventDefault();
-  }
-
-  preventNext(event) {
-    const str = this.state.titleList.links.last;
-    if (this.offset === Number(str.slice(str.indexOf('offset%5D')+10,str.indexOf('&sort=')))) event.preventDefault();
-  }
-
   render() {
     if (this.state.isError || !this.offset || !this.displayMode) return <div>Error, wrong link</div>;
     if (!this.state.titleList) return <div className="main-section--loading"><div className="lds-ring"><div></div><div></div><div></div><div></div></div></div>;
 
     const prevLink = queryString.stringify({displayMode:this.displayMode,offset:Number(this.offset)-16,filterText:this.filterText});
     const nextLink = queryString.stringify({displayMode:this.displayMode,offset:Number(this.offset)+16,filterText:this.filterText});
+    const nextLinkDenial = this.offset >= Number(queryString.parse(this.state.titleList.links.last)['page[offset]']);
     let str;
       switch (this.displayMode) {
         case 'top-airing': str = 'Top airing anime'; break;
         case 'top-rated': str = 'Top rated anime'; break;
         case 'top-popular' : str = 'Top popular anime'; break;
         case 'filter' : str = 'Searching for: «' + this.filterText + '»'; break;
+        case 'filter-category' : str = 'Top anime in «' + this.filterText + '» category'; break;
         default: str = 'Anime titles'
       }
     return (
@@ -75,11 +68,11 @@ export default class SearchForm extends Component {
       <h2>{str}</h2>
       <p>Page {this.offset/16+1}</p>
       <div className="main__button-section">
-        <Link to={`/search/?${prevLink}`} onClick={(e) => this.preventPrev(e)}>
+        <Link to={`/search/?${prevLink}`} onClick={(e) => {if (this.offset<=0) e.preventDefault()}}>
           <button className={`${this.offset <=0 ? 'btn btn-info disabled' : 'btn btn-info'}`}>Prev</button>
         </Link>
-        <Link to={`/search/?${nextLink}`} onClick={(e) => this.preventNext(e)}>
-        <button className="btn btn-info">Next</button>
+        <Link to={`/search/?${nextLink}`} onClick={(e) => {if (nextLinkDenial) e.preventDefault()}}>
+        <button className={`${nextLinkDenial ? 'btn btn-info disabled' : 'btn btn-info'}`}>Next</button>
         </Link>
       </div>
 

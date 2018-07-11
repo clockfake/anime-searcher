@@ -13,7 +13,7 @@ export default class MainPageSection extends Component {
   }
 
   componentDidMount() {
-    fetch(`https://kitsu.io/api/edge/anime${decoder(this.props.mode)}&page[limit]=10&page[offset]=0&fields[anime]=id,posterImage,titles,canonicalTitle`)
+    fetch(`https://kitsu.io/api/edge/anime${decoder(this.props.mode)}&page[limit]=7 &page[offset]=0&fields[anime]=id,posterImage,titles,canonicalTitle`)
       .then(response => {
       if (response.status!==200) {
         this.setState({isError: true});
@@ -34,7 +34,7 @@ export default class MainPageSection extends Component {
     if (!this.state.fetchedData) return <div className="main-section--loading"><div className="lds-ring"><div></div><div></div><div></div><div></div></div></div>;
     return(
       <div className='main-section'>
-        <h3>{str}</h3>
+        <h4>{str}</h4>
         <div className='main-list-container  row  no-gutters  justify-content-start'>
         {this.state.fetchedData.data.map(i => {
           return (
