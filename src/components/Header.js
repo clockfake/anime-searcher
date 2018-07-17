@@ -31,13 +31,13 @@ export default class Header extends Component {
       case 'Escape': this.setState({inputValue:''}); break;
       case 'ArrowDown': {
         if (this.state.activeItem === null) {this.setState({activeItem:0})} else {
-          if (this.state.activeItem < 5) this.setState(prevState => {return {activeItem:++prevState.activeItem}});
+          if (this.state.activeItem < 5) this.setState(prevState => ({activeItem:++prevState.activeItem}));
         }
       break;
       }
       case 'ArrowUp': {
         if (this.state.activeItem === 0) {this.setState({activeItem:null})} else {
-          if (this.state.activeItem !== null) this.setState(prevState => {return {activeItem:--prevState.activeItem}})
+          if (this.state.activeItem !== null) this.setState(prevState => ({activeItem:--prevState.activeItem}))
         }
       break;
       }

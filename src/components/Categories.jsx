@@ -6,7 +6,8 @@ export default class Categories extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fetchedData:null
+      fetchedData: null,
+      isError: false
     }
   }
 
@@ -21,7 +22,9 @@ export default class Categories extends Component {
   }
 
   render() {
+    if (this.state.isError) return <div>Error fetching data</div>;
     if (this.state.fetchedData === null) return <div className="main-section--loading"><div className="lds-ring"><div></div><div></div><div></div><div></div></div></div>;
+
     return (
       <div className="col-md-3  categories">
       <h4>Popular categories</h4>
