@@ -45,7 +45,7 @@ export default class Title extends Component {
   }
 
   render() {
-    if (this.state.isError) return <p>Error</p>;
+    if (this.state.isError) throw new Error(`Couldn't load title info`);
     if (!this.state.fetchedTitle) return <div className="main-section--loading"><div className="lds-ring"><div></div><div></div><div></div><div></div></div></div>;
     let info = this.state.fetchedTitle.data.attributes;
     return (

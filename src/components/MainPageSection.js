@@ -23,7 +23,7 @@ export default class MainPageSection extends Component {
   }
 
   render() {
-    if (this.state.isError) return <div>Error</div>;
+    if (this.state.isError) throw new Error(`Couldn't load main page section`);
     let str;
       switch (this.props.mode) {
         case 'top-airing': str = 'Top airing anime'; break;

@@ -48,7 +48,7 @@ export default class SearchForm extends Component {
   }
 
   render() {
-    if (this.state.isError || !this.offset || !this.displayMode) return <div>Error, wrong link</div>;
+    if (this.state.isError || !this.offset || !this.displayMode) throw new Error('Invalid link');
     if (!this.state.titleList) return <div className="main-section--loading"><div className="lds-ring"><div></div><div></div><div></div><div></div></div></div>;
 
     const prevLink = queryString.stringify({displayMode:this.displayMode,offset:Number(this.offset)-16,filterText:this.filterText});

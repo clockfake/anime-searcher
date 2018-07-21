@@ -21,7 +21,7 @@ export default class TitleReviews extends Component {
   }
 
   render() {
-    if (this.state.isError) return <div>Error fetching server</div>;
+    if (this.state.isError) throw new Error(`Couldn't load reviews for the title`);
     if (!this.state.reviews) return <div className="main-section--loading"><div className="lds-ring"><div></div><div></div><div></div><div></div></div></div>;
     return (
       <ul className="title__review-list">

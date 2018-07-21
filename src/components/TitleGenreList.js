@@ -22,7 +22,7 @@ export default class TitleGenreList extends Component {
   }
 
   render() {
-    if (this.state.isError) return <div>Error</div>;
+    if (this.state.isError) throw new Error(`Couldn't load title's category list`);
     if (!this.state.fetchedGenres) return <div>Loading</div>;
     return (
       <div className="title__categories">
