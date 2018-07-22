@@ -19,7 +19,6 @@ export default class Title extends Component {
       .then(response => {
       if (response.status!==200) {
         this.setState({isError: true});
-        return null;
     } return response.json()})
       .then(result => this.setState({fetchedTitle:result}))
       .catch(() => this.setState({isError:true}));
