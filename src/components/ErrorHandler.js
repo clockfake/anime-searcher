@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
 
 export default class ErrorHandler extends Component {
   constructor(props) {
@@ -17,7 +18,7 @@ export default class ErrorHandler extends Component {
       <div>
         <h3>The following error occured while loading this page:</h3>
         <p>{this.state.error && this.state.error.toString()}</p>
-        <p>Please, return to the main page</p>
+        <Link to='/' onClick={() => this.setState({error:null})}>Return to the main page</Link>
       </div>
     );
     return this.props.children;
