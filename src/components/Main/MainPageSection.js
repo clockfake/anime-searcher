@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import decoder from '../codeQuery.js';
+import decoder from '../../codeQuery.js';
+import LoadRing from '../LoadRing.jsx';
 
 export default class MainPageSection extends Component {
   constructor(props) {
@@ -24,6 +25,9 @@ export default class MainPageSection extends Component {
 
   render() {
     if (this.state.isError) throw new Error(`Couldn't load main page section`);
+    if (!this.state.fetchedData) return <div className="main-section--loading"><LoadRing/></div>;
+
+
     let str;
       switch (this.props.mode) {
         case 'top-airing': str = 'Top airing anime'; break;
@@ -31,8 +35,7 @@ export default class MainPageSection extends Component {
         case 'top-popular' : str = 'Top popular anime'; break;
         default: str = 'Anime titles'
       }
-    if (!this.state.fetchedData) return <div className="main-section--loading"><div className="lds-ring"><div></div><div></div><div></div><div></div></div></div>;
-    return(
+      return(
       <div className='main-section'>
         <h4>{str}</h4>
         <div className='main-list-container  row  no-gutters  justify-content-start'>

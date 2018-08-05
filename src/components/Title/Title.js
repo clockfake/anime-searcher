@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import TitleGenreList from './TitleGenreList.js';
-import '../css/Title.css';
+import '../../css/Title.css';
 import TitleReviews from './TitleReviews.js';
 
 export default class Title extends Component {
@@ -17,9 +17,10 @@ export default class Title extends Component {
   componentDidMount() {
     fetch('https://kitsu.io/api/edge/anime/' + this.props.match.params.id)
       .then(response => {
-      if (response.status!==200) {
-        this.setState({isError: true});
-    } return response.json()})
+        if (response.status!==200) {
+          this.setState({isError: true});
+        } return response.json();
+      })
       .then(result => this.setState({fetchedTitle:result}))
       .catch(() => this.setState({isError:true}));
   }
@@ -30,10 +31,11 @@ export default class Title extends Component {
       this.setState({fetchedTitle: null});
       fetch('https://kitsu.io/api/edge/anime/' + this.props.match.params.id)
         .then(response => {
-        if (response.status!==200) {
-          this.setState({isError: true});
-          return null;
-      } return response.json()})
+          if (response.status!==200) {
+            this.setState({isError: true});
+          }
+          return response.json()
+        })
         .then(result => this.setState({fetchedTitle:result}))
         .catch(() => this.setState({isError:true}));
     }
@@ -45,7 +47,8 @@ export default class Title extends Component {
 
   render() {
     if (this.state.isError) throw new Error(`Couldn't load title info`);
-    if (!this.state.fetchedTitle) return <div className="main-section--loading"><div className="lds-ring"><div></div><div></div><div></div><div></div></div></div>;
+    if (!this.state.fetchedTitle) return <div className="main-section--loading"></div>;
+
     let info = this.state.fetchedTitle.data.attributes;
     return (
     <div className="title">
@@ -72,7 +75,7 @@ export default class Title extends Component {
           <p className="title-section__value">{info.popularityRank}</p>
         </div>
         </div>
-        {info.youtubeVideoId && <button className="title-section__youtube btn btn-primary" onClick={() => this.toggleModal()}>Watch trailer on Youtube</button>}
+        {info.youtubeVideoId && <button className="title-section__youtube btn btn-primary" onClick={() => this.toggleModal()}>Watch trailer</button>}
         <TitleGenreList url={`https://kitsu.io/api/edge/anime/${this.state.fetchedTitle.data.id}/categories`}/>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import queryString from 'query-string';
+import LoadRing from '../LoadRing.jsx';
 
 export default class Categories extends Component {
   constructor(props) {
@@ -22,7 +23,7 @@ export default class Categories extends Component {
 
   render() {
     if (this.state.isError) throw new Error(`Couldn't load Categories tab`);
-    if (this.state.fetchedData === null) return <div className="main-section--loading"><div className="lds-ring"><div></div><div></div><div></div><div></div></div></div>;
+    if (this.state.fetchedData === null) return <div className="main-section--loading"><LoadRing/></div>;
 
     return (
       <div className="col-md-3  categories">

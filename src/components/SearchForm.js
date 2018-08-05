@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import queryString from 'query-string';
 import decoder from '../codeQuery.js';
+import LoadRing from './LoadRing.jsx';
+
 
 export default class SearchForm extends Component {
   constructor(props) {
@@ -49,7 +51,7 @@ export default class SearchForm extends Component {
 
   render() {
     if (this.state.isError || !this.offset || !this.displayMode) throw new Error('Invalid link');
-    if (!this.state.titleList) return <div className="main-section--loading"><div className="lds-ring"><div></div><div></div><div></div><div></div></div></div>;
+    if (!this.state.titleList) return <div className="main-section--loading"><LoadRing/></div>;
 
     const prevLink = queryString.stringify({displayMode:this.displayMode,offset:Number(this.offset)-16,filterText:this.filterText});
     const nextLink = queryString.stringify({displayMode:this.displayMode,offset:Number(this.offset)+16,filterText:this.filterText});

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import {Switch, Route} from 'react-router-dom';
-import Main from './components/Main.js';
-import Title from './components/Title.js';
-import Header from './components/Header.js';
+import Main from './components/Main/Main.js';
+import Title from './components/Title/Title.js';
+import Header from './components/Header/Header.js';
 import SearchForm from './components/SearchForm.js';
 import ErrorHandler from './components/ErrorHandler.js';
 import NotFound from './components/NotFound.js';

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import TitleReviewItem from './TitleReviewItem.js';
+import LoadRing from '../LoadRing.jsx';
 
 export default class TitleReviews extends Component {
   constructor(props) {
@@ -22,7 +23,7 @@ export default class TitleReviews extends Component {
 
   render() {
     if (this.state.isError) throw new Error(`Couldn't load reviews for the title`);
-    if (!this.state.reviews) return <div className="main-section--loading"><div className="lds-ring"><div></div><div></div><div></div><div></div></div></div>;
+    if (!this.state.reviews) return <div className="main-section--loading"><LoadRing/></div>;
     return (
       <ul className="title__review-list">
       {this.state.reviews.data.length > 0 && <h3>Popular reviews</h3>}

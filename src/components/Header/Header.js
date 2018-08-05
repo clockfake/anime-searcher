@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import SearchPopup from './SearchPopup.js';
+import HeaderPopup from './HeaderPopup.js';
 import {Link} from 'react-router-dom';
-import '../css/Header.css';
+import '../../css/Header.css';
 
 export default class Header extends Component {
   constructor(props) {
@@ -57,7 +57,7 @@ export default class Header extends Component {
           onChange={e => this.handleInput(e)}
           onKeyDown={e => this.handleKeyPress(e)}
           placeholder="Search for titles"/>
-        <SearchPopup input={this.state.inputValue} activeItem={this.state.activeItem} shouldRedirect={this.state.shouldRedirect}/>
+        <HeaderPopup input={this.state.inputValue} activeItem={this.state.activeItem} shouldRedirect={this.state.shouldRedirect}/>
         </div>
       </div>
     )

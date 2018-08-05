@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import queryString from 'query-string';
+import LoadRing from '../LoadRing.jsx';
 
 export default class TitleGenreList extends Component {
   constructor(props) {
@@ -23,7 +24,7 @@ export default class TitleGenreList extends Component {
 
   render() {
     if (this.state.isError) throw new Error(`Couldn't load title's category list`);
-    if (!this.state.fetchedGenres) return <div>Loading</div>;
+    if (!this.state.fetchedGenres) return <LoadRing/>;
     return (
       <div className="title__categories">
       Categories:

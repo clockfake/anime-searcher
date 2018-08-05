@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Link, Redirect} from 'react-router-dom';
 import queryString from 'query-string';
+import LoadRing from '../LoadRing.jsx';
 
 export default class SearchPopup extends Component {
   constructor(props) {
@@ -29,9 +30,9 @@ export default class SearchPopup extends Component {
   }
 
   render() {
-    if (this.props.input.length<3) return <ul className="search__popup-list--empty"></ul>;
     if (this.state.isError) throw new Error(`Couldn't load from search bar`);
-    if (!this.state.fetchedData) return <div className="search__popup-loading"><div className="lds-ring"><div></div><div></div><div></div><div></div></div></div>;
+    if (this.props.input.length<3) return <ul className="search__popup-list--empty"></ul>;
+    if (!this.state.fetchedData) return <div className="search__popup-loading"><LoadRing/></div>;
 
     if (this.props.shouldRedirect) {
       let searchLink;
