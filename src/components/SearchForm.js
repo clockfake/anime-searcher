@@ -20,7 +20,7 @@ export default class SearchForm extends Component {
   }
 
   componentDidMount() {
-    if (!this.displayMode||!this.offset) return;
+    if (!this.displayMode||!this.offset) throw new Error('Invalid link');
     fetch(`https://kitsu.io/api/edge/anime${decoder(this.displayMode,this.filterText)}&page[limit]=16&page[offset]=${this.offset}&fields[anime]=id,posterImage,titles,canonicalTitle`)
     .then(response => {
     if (response.status!==200) {
@@ -50,7 +50,7 @@ export default class SearchForm extends Component {
   }
 
   render() {
-    if (this.state.isError || !this.offset || !this.displayMode) throw new Error('Invalid link');
+    if (this.state.isError) throw new Error('Invalid link');
     if (!this.state.titleList) return <div className="main-section--loading"><LoadRing/></div>;
 
     const prevLink = queryString.stringify({displayMode:this.displayMode,offset:Number(this.offset)-16,filterText:this.filterText});

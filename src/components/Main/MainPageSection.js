@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import decoder from '../../codeQuery.js';
+import decoder from 'codeQuery.js';
 import LoadRing from '../LoadRing.jsx';
 
 export default class MainPageSection extends Component {

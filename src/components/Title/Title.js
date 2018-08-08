@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import TitleGenreList from './TitleGenreList.js';
-import '../../css/Title.css';
+import 'css/Title.css';
 import TitleReviews from './TitleReviews.js';
 
 export default class Title extends Component {
