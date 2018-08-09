@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import TitleGenreList from './TitleGenreList.js';
 import 'css/Title.css';
 import TitleReviews from './TitleReviews.js';
+import TitleRender from './TitleRender.jsx';
+import VideoModal from './VideoModal';
+import LoadRing from '../LoadRing.jsx';
 
 export default class Title extends Component {
   constructor(props) {
@@ -42,58 +44,17 @@ export default class Title extends Component {
   }
 
   toggleModal() {
-    this.setState((prevState) => {return {shouldShowModal: !prevState.shouldShowModal}});
+    this.setState((prevState) => ({shouldShowModal: !prevState.shouldShowModal}));
   }
 
   render() {
     if (this.state.isError) throw new Error(`Couldn't load title info`);
-    if (!this.state.fetchedTitle) return <div className="main-section--loading"></div>;
-
-    let info = this.state.fetchedTitle.data.attributes;
+    if (!this.state.fetchedTitle) return <div className="main-section--loading"><LoadRing/></div>;
     return (
     <div className="title">
-      <div className="title__main  row  no-gutters">
-        <div className="title__poster  col-md"><img src={info.posterImage ? info.posterImage.medium : ''} alt={info.titles.en || info.canonicalTitle}/></div>
-        <div className="title__info  col-md">
-        <h2 className="title__header">{info.titles.en || info.canonicalTitle}</h2>
-        <div className="title__plot">{info.synopsis}</div>
-        <div className="title__section-wrapper">
-        <div className="title-section">
-          <p className="title-section__heading">Show type:</p>
-          <p className="title-section__value">{info.showType === 'TV' && info.episodeCount ? `${info.showType} (${info.episodeCount} episodes)` : info.showType}</p>
-        </div>
-        <div className="title-section">
-          <p className="title-section__heading">Status</p>
-          <p className="title-section__value">{info.status === 'finished'? `${info.status} ${info.endDate}` : info.status}</p>
-        </div>
-        <div className="title-section">
-          <p className="title-section__heading">Rating:</p>
-          <p className="title-section__value">{info.averageRating}, Rank {info.ratingRank}</p>
-        </div>
-        <div className="title-section">
-          <p className="title-section__heading">Popularity rank:</p>
-          <p className="title-section__value">{info.popularityRank}</p>
-        </div>
-        </div>
-        {info.youtubeVideoId && <button className="title-section__youtube btn btn-primary" onClick={() => this.toggleModal()}>Watch trailer</button>}
-        <TitleGenreList url={`https://kitsu.io/api/edge/anime/${this.state.fetchedTitle.data.id}/categories`}/>
-        </div>
-      </div>
+      <TitleRender title={this.state.fetchedTitle.data.attributes} toggleModal={() => this.toggleModal()} id={this.state.fetchedTitle.data.id}/>
       <TitleReviews url={`https://kitsu.io/api/edge/anime/${this.props.match.params.id}/reviews?sort=-likesCount`}/>
-
-      {this.state.shouldShowModal && <div className="modal-overlay" onClick={() => this.toggleModal()}></div>}
-      {this.state.shouldShowModal && <div className="modal-window-wrapper" onClick={() => this.toggleModal()}>
-      <iframe
-        title={info.youtubeVideoId}
-        className="modal-window"
-        src={`https://www.youtube.com/embed/${info.youtubeVideoId}`}
-        allowFullScreen="allowfullscreen"
-        mozallowfullscreen="mozallowfullscreen"
-        msallowfullscreen="msallowfullscreen"
-        oallowfullscreen="oallowfullscreen"
-        webkitallowfullscreen="webkitallowfullscreen">
-      </iframe>
-      </div>}
+      <VideoModal shouldShow={this.state.shouldShowModal} toggleModal={() => this.toggleModal()} videoId={this.state.fetchedTitle.data.attributes.youtubeVideoId}/>
     </div>
   )
   }
