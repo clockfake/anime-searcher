@@ -10,3 +10,5 @@ export function decoder(text,filterText) {
   }
   return obj[text];
 }
+
+export const pageLimit = 16;

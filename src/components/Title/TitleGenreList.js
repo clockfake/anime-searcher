@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import axios from 'axios';
 import queryString from 'query-string';
 import LoadRing from '../LoadRing.jsx';
 
@@ -14,12 +15,11 @@ export default class TitleGenreList extends Component {
   }
 
   componentDidMount() {
-    fetch(this.props.url).then(response => {
-    if (response.status!==200) {
-      this.setState({isError: true});
-      return null;
-  } return response.json()}).then(result => this.setState({fetchedGenres:result}))
-    .catch(() => this.setState({isError:true}));
+    const request = async () => {
+      const res = await axios.get(this.props.url);
+      this.setState({fetchedGenres: res.data});
+    }
+    request().catch(() => this.setState({isError: true}));
   }
 
   render() {

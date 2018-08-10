@@ -4,7 +4,7 @@ import queryString from 'query-string';
 import axios from 'axios';
 import LoadRing from '../LoadRing.jsx';
 import Pagination from './Pagination.jsx';
-import { apiLink, decoder } from 'constants.js';
+import { apiLink, decoder, pageLimit } from 'constants.js';
 
 
 export default class SearchForm extends Component {
@@ -24,7 +24,7 @@ export default class SearchForm extends Component {
   componentDidMount() {
     if (!this.displayMode||!this.offset) throw new Error('Invalid link');
     const request = async () => {
-      const res = await axios.get(`${apiLink}/anime${decoder(this.displayMode,this.filterText)}&page[limit]=16&page[offset]=${this.offset}&fields[anime]=id,posterImage,titles,canonicalTitle`);
+      const res = await axios.get(`${apiLink}/anime${decoder(this.displayMode,this.filterText)}&page[limit]=${pageLimit}&page[offset]=${this.offset*pageLimit}&fields[anime]=id,posterImage,titles,canonicalTitle`);
       this.setState({titleList: res.data});
     }
     request().catch(() => this.setState({isError: true}));
@@ -40,7 +40,7 @@ export default class SearchForm extends Component {
     }
     if (!this.state.titleList) {
       const request = async () => {
-        const res = await axios.get(`${apiLink}/anime${decoder(this.displayMode,this.filterText)}&page[limit]=16&page[offset]=${this.offset}&fields[anime]=id,posterImage,titles,canonicalTitle`);
+        const res = await axios.get(`${apiLink}/anime${decoder(this.displayMode,this.filterText)}&page[limit]=${pageLimit}&page[offset]=${this.offset*pageLimit}&fields[anime]=id,posterImage,titles,canonicalTitle`);
         this.setState({titleList: res.data});
       }
       request().catch(() => this.setState({isError: true}));
@@ -62,12 +62,11 @@ export default class SearchForm extends Component {
     return (
     <div className="main__list">
       <h2>{str}</h2>
-      <p>Page {this.offset/16+1}</p>
       <Pagination
         offset={this.offset}
         displayMode={this.displayMode}
         filterText={this.filterText}
-        lastOffset={Number(queryString.parse(this.state.titleList.links.last)['page[offset]'])}
+        count={this.state.titleList.meta.count}
       />
       {this.state.titleList.data.map( i => (
         <div key={i.id} className="main__item">

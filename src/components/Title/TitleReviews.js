@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import TitleReviewItem from './TitleReviewItem.js';
+import axios from 'axios';
 import LoadRing from '../LoadRing.jsx';
 
 export default class TitleReviews extends Component {
@@ -13,12 +14,11 @@ export default class TitleReviews extends Component {
   }
 
   componentDidMount() {
-    fetch(this.props.url).then(response => {
-    if (response.status!==200) {
-      this.setState({isError: true});
-      return null;
-  } return response.json()}).then(result => this.setState({reviews:result}))
-      .catch(() => this.setState({isError:true}));
+    const request = async () => {
+      const res = await axios.get(this.props.url);
+      this.setState({reviews: res.data});
+    }
+    request().catch(() => this.setState({isError: true}));
   }
 
   render() {
