@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import queryString from 'query-string';
 import LoadRing from '../LoadRing.jsx';
+import { apiLink } from '../../constants';
 
 export default class Categories extends Component {
   constructor(props) {
@@ -12,7 +13,7 @@ export default class Categories extends Component {
   }
 
   componentDidMount() {
-    fetch(`https://kitsu.io/api/edge/categories?sort=-totalMediaCount&page[limit]=60&page[offset]=0`)
+    fetch(`${apiLink}/categories?sort=-totalMediaCount&page[limit]=60&page[offset]=0`)
     .then(response => {
     if (response.status!==200) {
       this.setState({isError: true});

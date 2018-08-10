@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import HeaderPopup from './HeaderPopup.jsx';
 import {Redirect} from 'react-router-dom';
 import queryString from 'query-string';
+import { apiLink } from 'constants.js';
 
 export default class HeaderSearch extends Component {
   constructor(props) {
@@ -25,7 +26,7 @@ export default class HeaderSearch extends Component {
         this.setState({fetchedData: null});
     }
     if (!this.state.fetchedData) {
-      fetch(`https://kitsu.io/api/edge/anime?filter[text]=${this.state.inputValue}&page[limit]=5&fields[anime]=id,titles,canonicalTitle,showType`)
+      fetch(`${apiLink}/anime?filter[text]=${this.state.inputValue}&page[limit]=5&fields[anime]=id,titles,canonicalTitle,showType`)
         .then(response => {
         if (response.status!==200) {
           this.setState({isError: true});

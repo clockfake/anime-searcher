@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import decoder from 'codeQuery.js';
 import LoadRing from '../LoadRing.jsx';
+import { apiLink } from '../../constants';
 
 export default class MainPageSection extends Component {
   constructor(props) {
@@ -14,7 +15,7 @@ export default class MainPageSection extends Component {
   }
 
   componentDidMount() {
-    fetch(`https://kitsu.io/api/edge/anime${decoder(this.props.mode)}&page[limit]=7 &page[offset]=0&fields[anime]=id,posterImage,titles,canonicalTitle`)
+    fetch(`${apiLink}/anime${decoder(this.props.mode)}&page[limit]=7 &page[offset]=0&fields[anime]=id,posterImage,titles,canonicalTitle`)
       .then(response => {
       if (response.status!==200) {
         this.setState({isError: true});

@@ -4,6 +4,7 @@ import TitleReviews from './TitleReviews.js';
 import TitleRender from './TitleRender.jsx';
 import VideoModal from './VideoModal';
 import LoadRing from '../LoadRing.jsx';
+import { apiLink } from 'constants.js';
 
 export default class Title extends Component {
   constructor(props) {
@@ -17,7 +18,7 @@ export default class Title extends Component {
   }
 
   componentDidMount() {
-    fetch('https://kitsu.io/api/edge/anime/' + this.props.match.params.id)
+    fetch(`${apiLink}/anime/${this.props.match.params.id}`)
       .then(response => {
         if (response.status!==200) {
           this.setState({isError: true});
