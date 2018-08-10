@@ -26,8 +26,6 @@ export default class MainPageSection extends Component {
   render() {
     if (this.state.isError) throw new Error(`Couldn't load main page section`);
     if (!this.state.fetchedData) return <div className="main-section--loading"><LoadRing/></div>;
-
-
     let str;
       switch (this.props.mode) {
         case 'top-airing': str = 'Top airing anime'; break;

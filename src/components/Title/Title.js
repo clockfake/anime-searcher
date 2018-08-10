@@ -54,7 +54,7 @@ export default class Title extends Component {
     <div className="title">
       <TitleRender title={this.state.fetchedTitle.data.attributes} toggleModal={() => this.toggleModal()} id={this.state.fetchedTitle.data.id}/>
       <TitleReviews url={`https://kitsu.io/api/edge/anime/${this.props.match.params.id}/reviews?sort=-likesCount`}/>
-      <VideoModal shouldShow={this.state.shouldShowModal} toggleModal={() => this.toggleModal()} videoId={this.state.fetchedTitle.data.attributes.youtubeVideoId}/>
+      {this.state.shouldShowModal && <VideoModal toggleModal={() => this.toggleModal()} videoId={this.state.fetchedTitle.data.attributes.youtubeVideoId}/>}
     </div>
   )
   }
