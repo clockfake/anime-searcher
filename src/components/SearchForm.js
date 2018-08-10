@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import queryString from 'query-string';
+import axios from 'axios';
 import decoder from '../codeQuery.js';
 import LoadRing from './LoadRing.jsx';
 import Pagination from './Pagination.jsx';
@@ -23,13 +24,11 @@ export default class SearchForm extends Component {
 
   componentDidMount() {
     if (!this.displayMode||!this.offset) throw new Error('Invalid link');
-    fetch(`${apiLink}/anime${decoder(this.displayMode,this.filterText)}&page[limit]=16&page[offset]=${this.offset}&fields[anime]=id,posterImage,titles,canonicalTitle`)
-    .then(response => {
-    if (response.status!==200) {
-      this.setState({isError: true});
-      return null;
-  } return response.json()}).then(result => this.setState({titleList:result}))
-    .catch(() => this.setState({isError: true}));
+    const request = async () => {
+      const res = await axios.get(`${apiLink}/anime${decoder(this.displayMode,this.filterText)}&page[limit]=16&page[offset]=${this.offset}&fields[anime]=id,posterImage,titles,canonicalTitle`);
+      this.setState({titleList: res.data});
+    }
+    request().catch(() => this.setState({isError: true}));
   }
 
   componentDidUpdate() {
@@ -41,13 +40,11 @@ export default class SearchForm extends Component {
       this.setState({titleList: null});
     }
     if (!this.state.titleList) {
-      fetch(`https://kitsu.io/api/edge/anime${decoder(this.displayMode,this.filterText)}&page[limit]=16&page[offset]=${this.offset}&fields[anime]=id,posterImage,titles,canonicalTitle`)
-        .then(response => {
-        if (response.status!==200) {
-          this.setState({isError: true});
-          return null;
-      } return response.json()}).then(result => this.setState({titleList:result}))
-      .catch(() => this.setState({isError: true}));
+      const request = async () => {
+        const res = await axios.get(`${apiLink}/anime${decoder(this.displayMode,this.filterText)}&page[limit]=16&page[offset]=${this.offset}&fields[anime]=id,posterImage,titles,canonicalTitle`);
+        this.setState({titleList: res.data});
+      }
+      request().catch(() => this.setState({isError: true}));
     }
   }
 

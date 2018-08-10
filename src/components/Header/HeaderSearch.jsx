@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import HeaderPopup from './HeaderPopup.jsx';
 import {Redirect} from 'react-router-dom';
 import queryString from 'query-string';
+import axios from 'axios';
 import { apiLink } from 'constants.js';
 
 export default class HeaderSearch extends Component {
@@ -26,13 +27,15 @@ export default class HeaderSearch extends Component {
         this.setState({fetchedData: null});
     }
     if (!this.state.fetchedData) {
-      fetch(`${apiLink}/anime?filter[text]=${this.state.inputValue}&page[limit]=5&fields[anime]=id,titles,canonicalTitle,showType`)
-        .then(response => {
-        if (response.status!==200) {
-          this.setState({isError: true});
-          return null;
-      } return response.json()}).then(result => this.setState({fetchedData:result}))
-        .catch(() => this.setState({isError:true}));
+      const request = async () => {
+        const res = await axios.get(`${apiLink}/anime`,{params:{
+          'filter[text]': this.state.inputValue,
+          'page[limit]': 5,
+          'fields[anime]': 'id,titles,canonicalTitle,showType'
+        }});
+        this.setState({fetchedData : res.data});
+      }
+      request().catch((err) => this.setState({isError: err}))
     }
   }
 

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import axios from 'axios';
 import queryString from 'query-string';
 import LoadRing from '../LoadRing.jsx';
 import { apiLink } from '../../constants';
@@ -13,13 +14,15 @@ export default class Categories extends Component {
   }
 
   componentDidMount() {
-    fetch(`${apiLink}/categories?sort=-totalMediaCount&page[limit]=60&page[offset]=0`)
-    .then(response => {
-    if (response.status!==200) {
-      this.setState({isError: true});
-      return null;
-  } return response.json()}).then(result => this.setState({fetchedData:result}))
-    .catch(() => this.setState({isError: true}));
+    const request = async () => {
+      const res = await axios.get(`${apiLink}/categories`, {params: {
+        sort: '-totalMediaCount',
+        'page[limit]':60,
+        'page[offset]':0
+      }});
+      this.setState({fetchedData: res.data});
+    }
+    request().catch(() => this.setState({isError: true}));
   }
 
   render() {
