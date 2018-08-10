@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
-import decoder from 'codeQuery.js';
 import LoadRing from '../LoadRing.jsx';
-import { apiLink } from '../../constants';
+import { apiLink, decoder } from '../../constants';
 
 export default class MainPageSection extends Component {
   constructor(props) {

@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import queryString from 'query-string';
 import axios from 'axios';
-import decoder from '../codeQuery.js';
-import LoadRing from './LoadRing.jsx';
+import LoadRing from '../LoadRing.jsx';
 import Pagination from './Pagination.jsx';
-import { apiLink } from '../constants';
+import { apiLink, decoder } from 'constants.js';
 
 
 export default class SearchForm extends Component {
