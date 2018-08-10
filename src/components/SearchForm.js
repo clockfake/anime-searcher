@@ -3,6 +3,8 @@ import {Link} from 'react-router-dom';
 import queryString from 'query-string';
 import decoder from '../codeQuery.js';
 import LoadRing from './LoadRing.jsx';
+import Pagination from './Pagination.jsx';
+import { apiLink } from '../constants';
 
 
 export default class SearchForm extends Component {
@@ -21,7 +23,7 @@ export default class SearchForm extends Component {
 
   componentDidMount() {
     if (!this.displayMode||!this.offset) throw new Error('Invalid link');
-    fetch(`https://kitsu.io/api/edge/anime${decoder(this.displayMode,this.filterText)}&page[limit]=16&page[offset]=${this.offset}&fields[anime]=id,posterImage,titles,canonicalTitle`)
+    fetch(`${apiLink}/anime${decoder(this.displayMode,this.filterText)}&page[limit]=16&page[offset]=${this.offset}&fields[anime]=id,posterImage,titles,canonicalTitle`)
     .then(response => {
     if (response.status!==200) {
       this.setState({isError: true});
@@ -52,10 +54,6 @@ export default class SearchForm extends Component {
   render() {
     if (this.state.isError) throw new Error('Invalid link');
     if (!this.state.titleList) return <div className="main-section--loading"><LoadRing/></div>;
-
-    const prevLink = queryString.stringify({displayMode:this.displayMode,offset:Number(this.offset)-16,filterText:this.filterText});
-    const nextLink = queryString.stringify({displayMode:this.displayMode,offset:Number(this.offset)+16,filterText:this.filterText});
-    const nextLinkDenial = this.offset >= Number(queryString.parse(this.state.titleList.links.last)['page[offset]']);
     let str;
       switch (this.displayMode) {
         case 'top-airing': str = 'Top airing anime'; break;
@@ -69,15 +67,12 @@ export default class SearchForm extends Component {
     <div className="main__list">
       <h2>{str}</h2>
       <p>Page {this.offset/16+1}</p>
-      <div className="main__button-section">
-        <Link to={`/search/?${prevLink}`} onClick={(e) => {if (this.offset<=0) e.preventDefault()}}>
-          <button className={`${this.offset <=0 ? 'btn btn-info disabled' : 'btn btn-info'}`}>Prev</button>
-        </Link>
-        <Link to={`/search/?${nextLink}`} onClick={(e) => {if (nextLinkDenial) e.preventDefault()}}>
-        <button className={`${nextLinkDenial ? 'btn btn-info disabled' : 'btn btn-info'}`}>Next</button>
-        </Link>
-      </div>
-
+      <Pagination
+        offset={this.offset}
+        displayMode={this.displayMode}
+        filterText={this.filterText}
+        lastOffset={Number(queryString.parse(this.state.titleList.links.last)['page[offset]'])}
+      />
       {this.state.titleList.data.map( i => (
         <div key={i.id} className="main__item">
           <Link to={`/title/${i.id}`}>
