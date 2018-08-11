@@ -28,12 +28,14 @@ export default class TitleGenreList extends Component {
     return (
       <div className="title__categories">
       Categories:
-      {this.state.fetchedGenres.data.map(i => {
-        const linkStr = '/search?' + queryString.stringify({displayMode:'filter-category',filterText:i.attributes.title,offset:0});
-        return (
-        <Link to={linkStr} key={i.id} className="btn btn-light title__category">{i.attributes.title}</Link>
+      {this.state.fetchedGenres.data.map(i => (
+        <Link
+          to={`/search?${queryString.stringify({displayMode:'filter-category',filterText:i.attributes.title,offset:0})}`}
+          key={i.id}
+          className="btn btn-light title__category"
+        >{i.attributes.title}</Link>
         )
-      })}
+      )}
       </div>
     )
   }

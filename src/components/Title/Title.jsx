@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import 'css/Title.css';
-import TitleReviews from './TitleReviews.js';
+import TitleReviews from './TitleReviews.jsx';
 import TitleRender from './TitleRender.jsx';
 import VideoModal from './VideoModal';
 import axios from 'axios';
@@ -48,7 +48,7 @@ export default class Title extends Component {
     return (
     <div className="title">
       <TitleRender title={this.state.fetchedTitle.data.attributes} toggleModal={() => this.toggleModal()} id={this.state.fetchedTitle.data.id}/>
-      <TitleReviews url={`https://kitsu.io/api/edge/anime/${this.props.match.params.id}/reviews?sort=-likesCount`}/>
+      <TitleReviews url={`${apiLink}/anime/${this.props.match.params.id}/reviews?sort=-likesCount&page[limit]=5`}/>
       {this.state.shouldShowModal && <VideoModal toggleModal={() => this.toggleModal()} videoId={this.state.fetchedTitle.data.attributes.youtubeVideoId}/>}
     </div>
   )

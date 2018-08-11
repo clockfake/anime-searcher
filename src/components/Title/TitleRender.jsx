@@ -1,5 +1,5 @@
 import React from 'react';
-import TitleGenreList from './TitleGenreList.js';
+import TitleGenreList from './TitleGenreList.jsx';
 
 const TitleRender = ({title, toggleModal, id}) => (
   <div className="title__main  row  no-gutters">

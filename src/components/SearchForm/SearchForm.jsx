@@ -63,7 +63,7 @@ export default class SearchForm extends Component {
     <div className="main__list">
       <h2>{str}</h2>
       <Pagination
-        offset={this.offset}
+        offset={Number(this.offset)}
         displayMode={this.displayMode}
         filterText={this.filterText}
         count={this.state.titleList.meta.count}

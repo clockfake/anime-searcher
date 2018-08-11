@@ -5,6 +5,16 @@ import queryString from 'query-string';
 import LoadRing from '../LoadRing.jsx';
 import { apiLink } from '../../constants';
 
+const CategoryRow = ({list}) => (
+  <ul className="categories__list  col-sm-6">
+    {list.map(i =>(
+      <li key={i.id}>
+        <Link to={'/search?' + queryString.stringify({displayMode:'filter-category',filterText:i.attributes.title,offset:0})}>{i.attributes.title}</Link>
+      </li>
+    ))}
+  </ul>
+)
+
 export default class Categories extends Component {
   constructor(props) {
     super(props);
@@ -27,26 +37,14 @@ export default class Categories extends Component {
 
   render() {
     if (this.state.isError) throw new Error(`Couldn't load Categories tab`);
-    if (this.state.fetchedData === null) return <div className="main-section--loading"><LoadRing/></div>;
+    if (!this.state.fetchedData) return <div className="main-section--loading"><LoadRing/></div>;
 
     return (
       <div className="col-md-3  categories">
       <h4>Popular categories</h4>
         <div className="row no-gutters">
-        <ul className="categories__list  col-sm-6">
-          {this.state.fetchedData.data.slice(0,30).map(i =>(
-            <li key={i.id}>
-              <Link to={'/search?' + queryString.stringify({displayMode:'filter-category',filterText:i.attributes.title,offset:0})}>{i.attributes.title}</Link>
-            </li>
-          ))}
-        </ul>
-        <ul className="categories__list  col-sm-6">
-          {this.state.fetchedData.data.slice(30).map(i =>(
-            <li key={i.id}>
-              <Link to={'/search?' + queryString.stringify({displayMode:'filter-category',filterText:i.attributes.title,offset:0})}>{i.attributes.title}</Link>
-            </li>
-          ))}
-        </ul>
+        <CategoryRow list={this.state.fetchedData.data.slice(0,30)} />
+        <CategoryRow list={this.state.fetchedData.data.slice(30)} />
         </div>
       </div>
     )

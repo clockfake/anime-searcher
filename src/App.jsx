@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import {Switch, Route} from 'react-router-dom';
-import Main from './components/Main/Main.js';
-import Title from './components/Title/Title.js';
-import Header from './components/Header/Header.js';
-import SearchForm from './components/SearchForm/SearchForm.js';
-import ErrorHandler from './components/ErrorHandler.js';
-import NotFound from './components/NotFound.js';
+import Main from './components/Main/Main.jsx';
+import Title from './components/Title/Title.jsx';
+import Header from './components/Header/Header.jsx';
+import SearchForm from './components/SearchForm/SearchForm.jsx';
+import ErrorHandler from './components/ErrorHandler.jsx';
+import NotFound from './components/NotFound.jsx';
 import './css/App.css';
 
 class App extends Component {

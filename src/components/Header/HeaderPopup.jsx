@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import {Link} from 'react-router-dom';
 import LoadRing from '../LoadRing.jsx';
@@ -24,6 +25,12 @@ const HeaderPopup = ({fetchedData, activeItem, input}) => {
       <Link to={searchLink}>More results</Link>
     </li>
     </ul>)
+}
+
+HeaderPopup.propTypes = {
+  fetchedData: PropTypes.object,
+  activeItem: PropTypes.number,
+  input: PropTypes.string
 }
 
 export default HeaderPopup;

@@ -15,18 +15,17 @@ export default class HeaderSearch extends Component {
       fetchedData: null
     }
     this.setState = this.setState.bind(this);
-    this.props.history.listen((location,action) => {
-      this.setState({inputValue: ''});
-    });
+    this.props.history.listen(() => this.setState({inputValue: ''}));
 }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.shouldRedirect) this.setState({shouldRedirect: false, activeItem: null});
-    if (this.state.inputValue.length<3) return;
-    if (this.state.inputValue !== prevState.inputValue) {
+    const {shouldRedirect, inputValue, fetchedData} = this.state;
+    if (shouldRedirect) this.setState({shouldRedirect: false, activeItem: null});
+    if (inputValue.length<3) return;
+    if (inputValue !== prevState.inputValue) {
         this.setState({fetchedData: null});
     }
-    if (!this.state.fetchedData) {
+    if (!fetchedData) {
       const request = async () => {
         const res = await axios.get(`${apiLink}/anime`,{params:{
           'filter[text]': this.state.inputValue,

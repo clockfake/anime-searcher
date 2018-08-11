@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const VideoModal = ({videoId, toggleModal}) => (
     <div className="modal-overlay" onClick={() => toggleModal()}>
@@ -14,5 +15,10 @@ const VideoModal = ({videoId, toggleModal}) => (
     </iframe>
     </div>
 )
+
+VideoModal.propTypes = {
+  videoId: PropTypes.string.isRequired,
+  toggleModal: PropTypes.func
+}
 
 export default VideoModal;
