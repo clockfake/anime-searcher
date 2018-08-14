@@ -8,6 +8,6 @@ const Header = (props) => (
         <div className="logo  col-sm-4"><Link to='/'><span>Weaboo</span></Link></div>
         <HeaderSearch {...props}/>
       </div>
-    )
+)
 
 export default Header;

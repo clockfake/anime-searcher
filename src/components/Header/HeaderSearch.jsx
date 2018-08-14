@@ -34,7 +34,7 @@ export default class HeaderSearch extends Component {
         }});
         this.setState({fetchedData : res.data});
       }
-      request().catch((err) => this.setState({isError: err}))
+      request().catch((err) => this.setState({isError: err}));
     }
   }
 
@@ -60,27 +60,28 @@ export default class HeaderSearch extends Component {
   }
 
   render() {
+    const searchLink = '/search?' + queryString.stringify({displayMode:'filter',filterText:this.state.inputValue,offset:0});
     if (this.state.isError) throw new Error(`Couldn't load from search bar`);
     if (this.state.shouldRedirect) {
-      let searchLink;
       if (this.state.activeItem === null || this.state.activeItem === 5) {
-        searchLink = '/search?' + queryString.stringify({displayMode:'filter',filterText:this.state.inputValue,offset:0})
+        return <Redirect to={searchLink}/>;
       } else {
-        searchLink = `/title/${this.state.fetchedData.data[this.state.activeItem].id}`;
+        return <Redirect to={`/title/${this.state.fetchedData.data[this.state.activeItem].id}`}/>;
       }
-      return (<Redirect to={searchLink}/>);
     }
 
     return (
-    <div className='search  col-sm-4'>
-    <input
-          type="text"
-          className="search__input  form-control"
-          value={this.state.inputValue}
-          onChange={e => this.setState({inputValue: e.target.value})}
-          onKeyUp={e => this.handleKeyPress(e)}
-          placeholder="Search for titles"/>
-      <HeaderPopup fetchedData={this.state.fetchedData} activeItem={this.state.activeItem} input={this.state.inputValue}/>
+      <div className='search  col-sm-4'>
+      <input
+        type="text"
+        className="search__input  form-control"
+        value={this.state.inputValue}
+        onChange={e => this.setState({inputValue: e.target.value})}
+        onKeyUp={e => this.handleKeyPress(e)}
+        placeholder="Search for titles"
+      />
+      {this.state.inputValue.length > 2 && <HeaderPopup fetchedData={this.state.fetchedData} activeItem={this.state.activeItem} searchLink={searchLink}/>}
+
     </div>
   )}
 }
