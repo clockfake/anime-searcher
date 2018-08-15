@@ -56,6 +56,18 @@
   margin-bottom: 20px;
 }
 
+@media (max-width: 500px) {
+  .main__button-advanced {
+    display: none;
+  }
+}
+
+@media (min-width: 501px) {
+  .main__button-basic {
+    display: none;
+  }
+}
+
 
 .categories {
   max-height: 715px;

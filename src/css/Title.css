@@ -79,8 +79,14 @@
 
 .title__review-content {
   margin: 0;
-  transition-timing-function: ease-in;
-  transition: 0.2s;
+  overflow: hidden;
+  max-height: 130px;
+  transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+}
+
+.title__review-content--full {
+  max-height: 15000px;
+  transition: max-height 2s ease-in-out;
 }
 
 .modal-overlay {
