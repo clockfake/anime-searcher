@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {Switch, Route} from 'react-router-dom';
 import Main from './components/Main/Main.jsx';
 import Title from './components/Title/Title.jsx';
@@ -8,9 +8,7 @@ import ErrorHandler from './components/ErrorHandler.jsx';
 import NotFound from './components/NotFound.jsx';
 import './css/App.css';
 
-class App extends Component {
-  render() {
-    return (
+const App = () => (
       <div className="App  container-fluid">
         <ErrorHandler>
         <Route component={Header}/>
@@ -22,8 +20,6 @@ class App extends Component {
         </Switch>
         </ErrorHandler>
       </div>
-    );
-  }
-}
+);
 
 export default App;

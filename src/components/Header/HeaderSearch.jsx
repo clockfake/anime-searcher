@@ -80,8 +80,11 @@ export default class HeaderSearch extends Component {
         onKeyUp={e => this.handleKeyPress(e)}
         placeholder="Search for titles"
       />
-      {this.state.inputValue.length > 2 && <HeaderPopup fetchedData={this.state.fetchedData} activeItem={this.state.activeItem} searchLink={searchLink}/>}
-
-    </div>
+      {this.state.inputValue.length > 2 && <HeaderPopup
+        fetchedData={this.state.fetchedData}
+        activeItem={this.state.activeItem}
+        searchLink={searchLink}
+        />}
+      </div>
   )}
 }

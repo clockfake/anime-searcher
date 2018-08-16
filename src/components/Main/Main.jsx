@@ -3,7 +3,7 @@ import MainPageSection from './MainPageSection.jsx';
 import 'css/Main.css';
 import Categories from './Categories.jsx';
 
-const Main = (props) => {
+const Main = () => {
     return(
     <div className="main row no-gutters">
       <div className="col-md-9">

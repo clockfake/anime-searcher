@@ -7,10 +7,6 @@ export default class TitleReviewItem extends Component {
   }
 
   render() {
-    // let postText;
-    // if (this.state.show ||this.props.content.length <= 800) {
-    //   postText = this.props.content;
-    // } else {postText = this.props.content.slice(0,800) + '...'};
     let revDate = new Date(this.props.date);
     return (
       <li className="title__review-item">

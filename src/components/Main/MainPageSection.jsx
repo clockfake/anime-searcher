@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 import LoadRing from '../LoadRing.jsx';
-import { apiLink, decoder } from '../../constants';
+import { apiLink, decoder, headerDecoder } from '../../constants';
 
 export default class MainPageSection extends Component {
   constructor(props) {
@@ -25,19 +25,12 @@ export default class MainPageSection extends Component {
   render() {
     if (this.state.isError) throw new Error(`Couldn't load main page section`);
     if (!this.state.fetchedData) return <div className="main-section--loading"><LoadRing/></div>;
-    let str;
-      switch (this.props.mode) {
-        case 'top-airing': str = 'Top airing anime'; break;
-        case 'top-rated': str = 'Top rated anime'; break;
-        case 'top-popular' : str = 'Top popular anime'; break;
-        default: str = 'Anime titles'
-      }
+    const str = headerDecoder(this.props.mode);
       return(
       <div className='main-section'>
         <h4>{str}</h4>
         <div className='main-list-container  row  no-gutters  justify-content-start'>
-        {this.state.fetchedData.data.map(i => {
-          return (
+        {this.state.fetchedData.data.map(i => (
           <div key={i.id} className="main__item  main__item--small  col">
             <Link to={`/title/${i.id}`}>
               <img src={i.attributes.posterImage.tiny} alt={i.attributes.titles.en || i.attributes.canonicalTitle}/>
@@ -45,7 +38,8 @@ export default class MainPageSection extends Component {
                 <span className="main__desc">{i.attributes.titles.en || i.attributes.canonicalTitle}</span>
               </div>
             </Link>
-        </div>)})
+          </div>
+        ))
         }
         </div>
         <Link to={`/search?displayMode=${this.props.mode}&offset=0`}>

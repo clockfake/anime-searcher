@@ -4,7 +4,7 @@ import queryString from 'query-string';
 import axios from 'axios';
 import LoadRing from '../LoadRing.jsx';
 import Pagination from './Pagination.jsx';
-import { apiLink, decoder, pageLimit } from 'constants.js';
+import { apiLink, decoder, pageLimit, headerDecoder } from 'constants.js';
 
 
 export default class SearchForm extends Component {
@@ -50,15 +50,8 @@ export default class SearchForm extends Component {
   render() {
     if (this.state.isError) throw new Error('Invalid link');
     if (!this.state.titleList) return <div className="main-section--loading"><LoadRing/></div>;
-    let str;
-      switch (this.displayMode) {
-        case 'top-airing': str = 'Top airing anime'; break;
-        case 'top-rated': str = 'Top rated anime'; break;
-        case 'top-popular' : str = 'Top popular anime'; break;
-        case 'filter' : str = 'Searching for: «' + this.filterText + '»'; break;
-        case 'filter-category' : str = 'Top anime in «' + this.filterText + '» category'; break;
-        default: str = 'Anime titles'
-      }
+    const str = headerDecoder(this.displayMode, this.filterText);
+
     return (
     <div className="main__list">
       <h2>{str}</h2>
