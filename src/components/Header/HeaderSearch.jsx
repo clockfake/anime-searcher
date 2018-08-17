@@ -4,6 +4,7 @@ import {Redirect} from 'react-router-dom';
 import queryString from 'query-string';
 import axios from 'axios';
 import { apiLink } from 'constants.js';
+import debounce from 'debounce';
 
 export default class HeaderSearch extends Component {
   constructor(props) {
@@ -16,24 +17,31 @@ export default class HeaderSearch extends Component {
     }
     this.setState = this.setState.bind(this);
     this.props.history.listen(() => this.setState({inputValue: ''}));
-}
+  }
+
+  request = async () => {
+    try {
+      this.setState({fetchedData: null});
+      const res = await axios.get(`${apiLink}/anime`,{params:{
+        'filter[text]': this.state.inputValue,
+        'page[limit]': 5,
+        'fields[anime]': 'id,titles,canonicalTitle,showType'
+      }});
+      console.log('made api call');
+      this.setState({fetchedData : res.data});
+    } catch (err) {
+      this.setState({isError: err});
+    }
+  }
+
+  throttledReq = debounce(this.request, 300);
 
   componentDidUpdate(prevProps, prevState) {
-    const {shouldRedirect, inputValue, fetchedData} = this.state;
+    const {shouldRedirect, inputValue} = this.state;
     if (shouldRedirect) this.setState({shouldRedirect: false, activeItem: null});
     if (inputValue.length<3) return;
     if (inputValue !== prevState.inputValue) {
-        this.setState({fetchedData: null});
-    }
-    if (!fetchedData) {
-      (async () => {
-        const res = await axios.get(`${apiLink}/anime`,{params:{
-          'filter[text]': this.state.inputValue,
-          'page[limit]': 5,
-          'fields[anime]': 'id,titles,canonicalTitle,showType'
-        }});
-        this.setState({fetchedData : res.data});
-      })().catch((err) => this.setState({isError: err}));
+      this.throttledReq();
     }
   }
 
