@@ -15,11 +15,10 @@ export default class TitleReviews extends Component {
   }
 
   componentDidMount() {
-    const request = async () => {
+    (async () => {
       const res = await axios.get(this.props.url);
       this.setState({reviews: res.data});
-    }
-    request().catch(() => this.setState({isError: true}));
+    })().catch(() => this.setState({isError: true}));
   }
 
   render() {

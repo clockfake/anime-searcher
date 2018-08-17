@@ -26,15 +26,14 @@ export default class HeaderSearch extends Component {
         this.setState({fetchedData: null});
     }
     if (!fetchedData) {
-      const request = async () => {
+      (async () => {
         const res = await axios.get(`${apiLink}/anime`,{params:{
           'filter[text]': this.state.inputValue,
           'page[limit]': 5,
           'fields[anime]': 'id,titles,canonicalTitle,showType'
         }});
         this.setState({fetchedData : res.data});
-      }
-      request().catch((err) => this.setState({isError: err}));
+      })().catch((err) => this.setState({isError: err}));
     }
   }
 

@@ -15,11 +15,10 @@ export default class MainPageSection extends Component {
   }
 
   componentDidMount() {
-    const request = async () => {
+    (async () => {
       const res = await axios.get(`${apiLink}/anime${decoder(this.props.mode)}&page[limit]=7&page[offset]=0&fields[anime]=id,posterImage,titles,canonicalTitle`);
       this.setState({fetchedData: res.data});
-    }
-    request().catch(() => this.setState({isError: true}));
+    })().catch(() => this.setState({isError: true}));
   }
 
   render() {

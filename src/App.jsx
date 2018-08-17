@@ -16,7 +16,7 @@ const App = () => (
           <Route exact path='/' component={Main}/>
           <Route path='/search' component={SearchForm}/>
           <Route path='/title/:id/' component={Title}/>
-          <Route path='*' component={NotFound}/>
+          <Route component={NotFound}/>
         </Switch>
         </ErrorHandler>
       </div>

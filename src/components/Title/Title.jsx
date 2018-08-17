@@ -15,26 +15,24 @@ export default class Title extends Component {
       isError: false,
       shouldShowModal: false
     }
-    this.setState = this.setState.bind(this);
+    // this.setState = this.setState.bind(this);
   }
 
   componentDidMount() {
-    const request = async () => {
+    (async () => {
       const res = await axios.get(`${apiLink}/anime/${this.props.match.params.id}`);
       this.setState({fetchedTitle: res.data});
-    }
-    request().catch(() => this.setState({isError: true}));
+    })().catch(() => this.setState({isError: true}));
   }
 
   componentDidUpdate() {
     if (!this.state.fetchedTitle) return;
     if (this.state.fetchedTitle.data.id !== this.props.match.params.id) {
       this.setState({fetchedTitle: null});
-      const request = async () => {
+      (async () => {
         const res = await axios.get(`${apiLink}/anime/${this.props.match.params.id}`);
         this.setState({fetchedTitle: res.data});
-      }
-      request().catch(() => this.setState({isError: true}));
+      })().catch(() => this.setState({isError: true}));
     }
   }
 

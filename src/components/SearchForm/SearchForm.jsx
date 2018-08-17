@@ -23,11 +23,10 @@ export default class SearchForm extends Component {
 
   componentDidMount() {
     if (!this.displayMode||!this.offset) throw new Error('Invalid link');
-    const request = async () => {
+    (async () => {
       const res = await axios.get(`${apiLink}/anime${decoder(this.displayMode,this.filterText)}&page[limit]=${pageLimit}&page[offset]=${this.offset*pageLimit}&fields[anime]=id,posterImage,titles,canonicalTitle`);
       this.setState({titleList: res.data});
-    }
-    request().catch(() => this.setState({isError: true}));
+    })().catch(() => this.setState({isError: true}));
   }
 
   componentDidUpdate() {
@@ -39,11 +38,10 @@ export default class SearchForm extends Component {
       this.setState({titleList: null});
     }
     if (!this.state.titleList) {
-      const request = async () => {
+      (async () => {
         const res = await axios.get(`${apiLink}/anime${decoder(this.displayMode,this.filterText)}&page[limit]=${pageLimit}&page[offset]=${this.offset*pageLimit}&fields[anime]=id,posterImage,titles,canonicalTitle`);
         this.setState({titleList: res.data});
-      }
-      request().catch(() => this.setState({isError: true}));
+      })().catch(() => this.setState({isError: true}));
     }
   }
 
