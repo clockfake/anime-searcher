@@ -13,10 +13,13 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "jest sum --notify",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "eslint": "^5.3.0"
+    "enzyme": "^3.4.4",
+    "enzyme-adapter-react-16": "^1.2.0",
+    "eslint": "^5.3.0",
+    "jest": "^23.5.0"
   }
 }
