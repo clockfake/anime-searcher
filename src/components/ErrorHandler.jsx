@@ -17,7 +17,7 @@ export default class ErrorHandler extends Component {
     if (this.state.error) return (
       <div>
         <h3>The following error occured while loading this page:</h3>
-        <p>{this.state.error && this.state.error.toString()}</p>
+        <p>{this.state.error.toString()}</p>
         <Link to='/' onClick={() => this.setState({error:null})}>Return to the main page</Link>
       </div>
     );

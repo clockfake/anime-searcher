@@ -13,8 +13,9 @@ const HeaderPopup = ({fetchedData, activeItem, searchLink}) => {
     {fetchedData.data.map((i,index) => (
         <li key={i.id} className={`search__popup-item  list-group-item ${activeItem === index ? 'active' : ''}`}>
           <Link className="search__item-info-wrapper" to={`/title/${i.id}`}>
-          <span>{i.attributes.titles.en || i.attributes.canonicalTitle}</span>
-          <span className="badge badge-secondary">{i.attributes.showType}</span></Link>
+            <span>{i.attributes.titles.en || i.attributes.canonicalTitle}</span>
+            <span className="badge badge-secondary">{i.attributes.showType}</span>
+          </Link>
         </li>
       )
     )}
