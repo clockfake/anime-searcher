@@ -9,7 +9,7 @@ const wrapper = shallow(<Header />);
 
 describe('Header component', () => {
   it('renders header logo', () => {
-    expect(wrapper.find('.header')).to.have.length(1);
+    expect(wrapper.find('.header').length).toBe(1);
   });
 
-})
+});
