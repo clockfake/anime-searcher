@@ -47,6 +47,7 @@ describe('HeaderSearch component', () => {
   it('raises an error on 500 status fetch', async () => {
     const comp = await shallow(<MainPageSection mode='top-popular'/>);
     await comp.update();
+    console.log(comp.state());
     expect(comp.state('isError')).toBeTruthy();
   });
 });
