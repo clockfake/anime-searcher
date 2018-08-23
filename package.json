@@ -13,16 +13,6 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-<<<<<<< HEAD
-    "test": "jest sum --notify",
-    "eject": "react-scripts eject"
-  },
-  "devDependencies": {
-    "enzyme": "^3.4.4",
-    "enzyme-adapter-react-16": "^1.2.0",
-    "eslint": "^5.3.0",
-    "jest": "^23.5.0"
-=======
     "test": "jest --init",
     "eject": "react-scripts eject"
   },
@@ -34,6 +24,5 @@
     "enzyme-adapter-react-16": "^1.2.0",
     "eslint": "^5.3.0",
     "identity-obj-proxy": "^3.0.0"
->>>>>>> 98c95d7d2f63cc39b4b94e69d87f9003a49adf0b
   }
 }
