@@ -10,34 +10,10 @@ configure({ adapter: new Adapter() });
 
 describe('HeaderSearch component', () => {
 
-  // const mountWithRouter = node => mount(<Router>{node}</Router>);
-  beforeEach((done) => {
-       setTimeout(() => {
-           done();
-       }, 4500);
-   });
-
-  it('gets data from API on input change', async (done) => {
-    // const res = {
-    //   status: 200,
-    //   data: [
-    //     {
-    //       id: 1,
-    //       name: 'K-on',
-    //     },
-    //     {
-    //       id: 2,
-    //       name: 'K-on TV-2',
-    //     }
-    //   ]
-    // };
-    // axios.get = jest.fn().mockImplementation(res);
+  it('gets data from API on input change', async () => {
     const comp = await shallow(<HeaderSearch history={{listen: () => null}}/>);
     comp.find('input').simulate('change',{target: {value: 'K-on'}});
     await comp.update();
-    await comp.update();
-    // await done();
-    console.log(comp.state());
-    await expect(comp.state('fetchedData')).toBeTruthy();
+    await expect(comp.state('inputValue')).toBe('K-on');
   });
 });
