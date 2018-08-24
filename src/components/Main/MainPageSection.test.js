@@ -1,10 +1,9 @@
 import React from 'react';
-import {MemoryRouter as Router} from 'react-router-dom';
 import MainPageSection from './MainPageSection.jsx';
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import axios from 'axios';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 configure({ adapter: new Adapter() });
 
 axios.get = jest.fn().mockImplementationOnce(() => ({
@@ -14,7 +13,7 @@ axios.get = jest.fn().mockImplementationOnce(() => ({
       id: 1,
       attributes: {
         titles: {
-          en: 'K-on'
+          en: 'test'
         },
         posterImage: {
           tiny: ''
@@ -25,7 +24,7 @@ axios.get = jest.fn().mockImplementationOnce(() => ({
       id: 2,
       attributes: {
         titles: {
-          en: 'K-on TV-2'
+          en: 'test TV-2'
         },
         posterImage: {
           tiny: ''
@@ -38,11 +37,11 @@ axios.get = jest.fn().mockImplementationOnce(() => ({
     status: 500
   }));
 
-describe('HeaderSearch component', () => {
-  it('gets data from API on input change', async () => {
+describe('MainPage section component', () => {
+  it('makes API call on mount', async () => {
     const comp = await shallow(<MainPageSection mode='top-popular'/>);
     await comp.update();
-    expect(comp.state('fetchedData')).toBeTruthy();
+    expect(comp.state('fetchedData').length).toBe(2);
   });
   it('raises an error on 500 status fetch', async () => {
     const comp = await shallow(<MainPageSection mode='top-popular'/>);

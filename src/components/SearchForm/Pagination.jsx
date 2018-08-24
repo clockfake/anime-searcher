@@ -19,7 +19,7 @@ const Pagination = ({offset,count,displayMode,filterText}) => (
   </div>
 );
 
-const PageLink = ({condition, linkTo, text}) => (
+export const PageLink = ({condition, linkTo, text}) => (
   <Link to={linkTo} onClick={(e) => {if (condition) e.preventDefault()}}>
     <button className={`btn btn-info ${condition ? 'disabled' : ''}`}>{text}</button>
   </Link>
