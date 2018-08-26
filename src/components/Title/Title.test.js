@@ -5,7 +5,7 @@ import axios from 'axios';
 
 axios.get = jest.fn().mockImplementation(() => ({
   status: 200,
-  data: {data: 'asd'}
+  data: {data: {id: 439, attributes: {youtubeVideoId: 'NraaWUZxWZw'}}}
 }));
 
 const wrapper = shallow(<Title match={{params:{id: 439}}}/>);
