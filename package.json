@@ -2,6 +2,17 @@
   "name": "anime-searcher",
   "version": "0.1.0",
   "private": true,
+  "jest": {
+    "coverageDirectory": "coverage",
+    "roots": ["<rootDir>/src"],
+    "modulePaths": ["<rootDir>/src"],
+    "moduleNameMapper": {
+        "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+        "\\.(css|scss)$": "identity-obj-proxy"
+      },
+    "testPathIgnorePatterns": ["src/App.test.js"],
+    "setupTestFrameworkScriptFile": "<rootDir>/src/setupTests.js"
+  },
   "dependencies": {
     "axios": "^0.18.0",
     "query-string": "^5.1.1",
@@ -13,7 +24,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest --init",
+    "test": "jest",
     "eject": "react-scripts eject"
   },
   "devDependencies": {

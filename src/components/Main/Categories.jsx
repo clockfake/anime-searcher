@@ -5,7 +5,7 @@ import queryString from 'query-string';
 import LoadRing from '../LoadRing.jsx';
 import { apiLink } from '../../constants';
 
-const CategoryRow = ({list}) => (
+export const CategoryRow = ({list}) => (
   <ul className="categories__list  col-sm-6">
     {list.map(i =>(
       <li key={i.id}>

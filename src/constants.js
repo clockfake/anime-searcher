@@ -14,12 +14,13 @@ export const decoder = (text,filterText) => {
 export const pageLimit = 16;
 
 export const headerDecoder = (type, filterText) => {
-  switch (type) {
-    case 'top-airing': return 'Top airing anime';
-    case 'top-rated': return 'Top rated anime';
-    case 'top-popular' : return 'Top popular anime'
-    case 'filter' : return 'Searching for: «' + filterText + '»';
-    case 'filter-category' : return 'Top anime in «' + filterText + '» category';
-    default: return 'Anime titles'
+  const obj = {
+    'top-airing': 'Top airing anime',
+    'top-rated': 'Top rated anime',
+    'top-popular' : 'Top popular anime',
+    'filter' : 'Searching for: «' + filterText + '»',
+    'filter-category' : 'Top anime in «' + filterText + '» category'
   }
+
+  return obj[type];
 }

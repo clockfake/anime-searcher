@@ -1,30 +1,26 @@
 import React from 'react';
-import Categories from './Categories.jsx';
-import { configure, shallow } from 'enzyme';
+import Categories, { CategoryRow } from './Categories.jsx';
+import { shallow } from 'enzyme';
 import sinon from 'sinon';
-import Adapter from 'enzyme-adapter-react-16';
 import axios from 'axios';
-configure({ adapter: new Adapter() });
 
-axios.get = jest.fn().mockImplementationOnce(() => ({
+axios.get = jest.fn().mockImplementation(() => ({
   status: 200,
-  data: [
-    {
-      id: 1,
-    },
-    {
-      id: 2,
-    },
-  ]
-}))
-  .mockImplementationOnce(() => ({
-    status: 500
-  }));
+  data: Array.from({length: 60}, (i, index) => ({ id: index}))
+}));
 
 describe('Categories component', () => {
   it('makes API call on mount', () => {
     sinon.spy(Categories.prototype, 'componentDidMount');
     const wrapper = shallow(<Categories/>);
     expect(Categories.prototype.componentDidMount.callCount).toBe(1);
+  });
+
+  it('renders 2 category rows', () => {
+    const wrapper = shallow(<Categories/>);
+    setTimeout(() => {
+      wrapper.update();
+      expect(wrapper.find('CategoryRow').length).toBe(2);
+    });
   });
 });

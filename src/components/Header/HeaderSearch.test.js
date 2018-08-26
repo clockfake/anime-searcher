@@ -1,12 +1,8 @@
 import React from 'react';
 import {MemoryRouter as Router} from 'react-router-dom';
 import HeaderSearch from './HeaderSearch.jsx';
-import { configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
 import axios from 'axios';
 import { shallow, mount } from 'enzyme';
-
-configure({ adapter: new Adapter() });
 
 describe('HeaderSearch component', () => {
 
