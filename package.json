@@ -4,17 +4,24 @@
   "private": true,
   "jest": {
     "coverageDirectory": "coverage",
-    "roots": ["<rootDir>/src"],
-    "modulePaths": ["<rootDir>/src"],
+    "roots": [
+      "<rootDir>/src"
+    ],
+    "modulePaths": [
+      "<rootDir>/src"
+    ],
     "moduleNameMapper": {
-        "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
-        "\\.(css|scss)$": "identity-obj-proxy"
-      },
-    "testPathIgnorePatterns": ["src/App.test.js"],
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|scss)$": "identity-obj-proxy"
+    },
+    "testPathIgnorePatterns": [
+      "src/App.test.js"
+    ],
     "setupTestFrameworkScriptFile": "<rootDir>/src/setupTests.js"
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "prop-types": "^15.6.2",
     "query-string": "^5.1.1",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
@@ -25,15 +32,21 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest",
+    "linter": "eslint src/components/**",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "babel-eslint": "^10.0.1",
     "babel-jest": "^23.4.2",
     "babel-plugin-transform-export-extensions": "^6.22.0",
     "babel-preset-stage-2": "^6.24.1",
     "enzyme": "^3.4.4",
     "enzyme-adapter-react-16": "^1.2.0",
     "eslint": "^5.3.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-react": "^7.11.1",
     "identity-obj-proxy": "^3.0.0",
     "sinon": "^6.1.5"
   }

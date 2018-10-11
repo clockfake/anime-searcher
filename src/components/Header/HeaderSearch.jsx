@@ -1,6 +1,5 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import HeaderPopup from './HeaderPopup.jsx';
-import {Redirect} from 'react-router-dom';
 import queryString from 'query-string';
 import axios from 'axios';
 import { apiLink } from 'constants.js';
@@ -10,7 +9,6 @@ export default class HeaderSearch extends Component {
     super(props);
     this.state = {
       inputValue: '',
-      shouldRedirect: false,
       activeItem: null,
       fetchedData: null
     }
@@ -33,8 +31,7 @@ export default class HeaderSearch extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const {shouldRedirect, inputValue} = this.state;
-    if (shouldRedirect) this.setState({shouldRedirect: false, activeItem: null});
+    const {inputValue} = this.state;
     if (inputValue.length<3) return;
     if (inputValue !== prevState.inputValue) {
       this.setState({fetchedData: null});
@@ -46,10 +43,15 @@ export default class HeaderSearch extends Component {
     }
   }
 
-  handleKeyPress(event) {
+  handleKeyPress(event, searchLink) {
     if(this.state.inputValue.length<3) return;
     switch(event.key) {
-      case 'Enter': this.setState({shouldRedirect:true}); break;
+      case 'Enter':
+      if (this.state.activeItem === null || this.state.activeItem === 5) {
+        return this.props.history.push(searchLink);
+      } else {
+        return this.props.history.push(`/title/${this.state.fetchedData.data[this.state.activeItem].id}`);
+      }
       case 'Escape': this.setState({inputValue:''}); break;
       case 'ArrowDown': {
         if (this.state.activeItem === null) {this.setState({activeItem:0})} else {
@@ -63,21 +65,13 @@ export default class HeaderSearch extends Component {
         }
       break;
       }
-      default: break;
+      default: return;
     }
   }
 
   render() {
     const searchLink = '/search?' + queryString.stringify({displayMode:'filter',filterText:this.state.inputValue,offset:0});
     if (this.state.isError) throw new Error(`Couldn't load from search bar`);
-    if (this.state.shouldRedirect) {
-      if (this.state.activeItem === null || this.state.activeItem === 5) {
-        return <Redirect to={searchLink}/>;
-      } else {
-        return <Redirect to={`/title/${this.state.fetchedData.data[this.state.activeItem].id}`}/>;
-      }
-    }
-
     return (
       <div className='search  col-sm-4'>
       <input
@@ -85,7 +79,7 @@ export default class HeaderSearch extends Component {
         className="search__input  form-control"
         value={this.state.inputValue}
         onChange={e => this.setState({inputValue: e.target.value})}
-        onKeyUp={e => this.handleKeyPress(e)}
+        onKeyUp={e => this.handleKeyPress(e,searchLink)}
         placeholder="Search for titles"
       />
       {this.state.inputValue.length > 2 && <HeaderPopup
