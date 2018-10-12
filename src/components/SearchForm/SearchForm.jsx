@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import axios from 'axios';
 import {
@@ -19,7 +20,7 @@ export default class SearchForm extends Component {
       titleList: null,
       isError: false,
     };
-    const { search } = this.props.location;
+    const { location: { search } } = this.props;
     this.setState = this.setState.bind(this);
     const loadOptions = queryString.parse(search);
     this.displayMode = loadOptions.displayMode && loadOptions.displayMode;
@@ -33,7 +34,7 @@ export default class SearchForm extends Component {
   }
 
   componentDidUpdate() {
-    const { search } = this.props.location;
+    const { location: { search } } = this.props;
     const currentOptions = queryString.parse(search);
     if (currentOptions.displayMode !== this.displayMode
       || currentOptions.offset !== this.offset
@@ -70,6 +71,7 @@ export default class SearchForm extends Component {
           displayMode={this.displayMode}
           filterText={this.filterText}
           count={titleList.meta.count}
+          limit={16}
         />
         {titleList.data.map(i => (
           <div key={i.id} className="main__item">
@@ -81,7 +83,26 @@ export default class SearchForm extends Component {
             </Link>
           </div>
         ))}
+        <Pagination
+          offset={Number(this.offset)}
+          displayMode={this.displayMode}
+          filterText={this.filterText}
+          count={titleList.meta.count}
+          limit={16}
+        />
       </div>
     );
   }
 }
+
+SearchForm.propTypes = {
+  location: PropTypes.shape({
+    search: PropTypes.string,
+  }),
+};
+
+SearchForm.defaultProps = {
+  location: {
+    search: '?displayMode=top-rated&offset=0',
+  },
+};

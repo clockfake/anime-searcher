@@ -41,12 +41,12 @@ HeaderPopup.defaultProps = {
             en: 'HIMOUTO! UMARU-CHAN',
           },
           showType: 'TV',
-        }
-      }
-    ]
+        },
+      },
+    ],
   },
   activeItem: 0,
   searchLink: '',
-}
+};
 
 export default HeaderPopup;
