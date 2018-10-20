@@ -18,7 +18,7 @@ export default class MainPageSection extends Component {
   componentDidMount() {
     const { mode } = this.props;
     (async () => {
-      const res = await axios.get(`${apiLink}/anime${decoder(mode)}&page[limit]=7&page[offset]=0&fields[anime]=id,posterImage,titles,canonicalTitle`);
+      const res = await axios.get(`${apiLink}/anime${decoder(mode)}&page[limit]=9&page[offset]=0&fields[anime]=id,posterImage,titles,canonicalTitle`);
       if (res.status !== 200) throw new Error('bad request');
       this.setState({ fetchedData: res.data });
     })().catch(() => this.setState({ isError: true }));

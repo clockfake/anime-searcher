@@ -6,9 +6,9 @@ const wrapper = shallow(<Header />);
 
 describe('Header component', () => {
   it('renders header logo', () => {
-    expect(wrapper.find('.header').length).toBeGreaterThan(0);
+    expect(wrapper.find('.navbar-brand').length).toBe(1);
   });
   it('renders HeaderSearch elemenet', () => {
-    expect(wrapper.find('HeaderSearch').length).toBeGreaterThan(0);
+    expect(wrapper.find('HeaderSearch').length).toBe(1);
   })
 });

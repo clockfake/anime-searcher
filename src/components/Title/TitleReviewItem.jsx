@@ -12,12 +12,14 @@ export default class TitleReviewItem extends Component {
       content,
       likes,
       date,
+      selfnote
     } = this.props;
     const { show } = this.state;
     return (
       <li className="title__review-item">
-        <p className="title__review-author">{`Source: ${author}, likes: ${likes}`}</p>
-        <p className="title__review-date">{new Date(date).toLocaleString('ru', { year: 'numeric', day: 'numeric', month: 'numeric' })}</p>
+        {author && <p className="title__review-author">{`Source: ${author}, likes: ${likes}`}</p>}
+        {selfnote && <p>{`You rated this title as ${likes}/10`}</p>}
+        {date && <p className="title__review-date">{new Date(date).toLocaleString('ru', { year: 'numeric', day: 'numeric', month: 'numeric' })}</p>}
         <p
           className={show ? 'title__review-content title__review-content--full' : 'title__review-content'}
           dangerouslySetInnerHTML={{ __html: content }} /* eslint-disable-line */

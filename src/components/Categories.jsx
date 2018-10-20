@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import queryString from 'query-string';
-import LoadRing from '../LoadRing.jsx';
-import { apiLink } from '../../constants';
+import LoadRing from './LoadRing.jsx';
+import { apiLink } from '../constants';
 
 export const CategoryRow = ({ list }) => (
   <ul className="categories__list  col-sm-6">
@@ -42,7 +42,7 @@ export default class Categories extends Component {
     if (!fetchedData) return <div className="main-section--loading"><LoadRing /></div>;
 
     return (
-      <div className="col-md-3  categories">
+      <div className="categories">
         <h4>Popular categories</h4>
         <div className="row no-gutters">
           <CategoryRow list={fetchedData.data.slice(0, 30)} />

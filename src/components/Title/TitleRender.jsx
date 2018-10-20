@@ -2,9 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TitleGenreList from './TitleGenreList.jsx';
 
-const TitleRender = ({ title, toggleModal, id }) => (
+const TitleRender = ({ title, toggleModal, id, noNote }) => (
   <div className="title__main  row  no-gutters">
-    <div className="title__poster  col-md"><img src={title.posterImage ? title.posterImage.medium : ''} alt={title.titles.en || title.canonicalTitle} /></div>
+    <div className="title__poster  col-md">
+      <img
+        src={title.posterImage ? title.posterImage.medium : ''}
+        alt={title.titles.en || title.canonicalTitle}
+        className="title__poster-image"
+      />
+    {noNote && <button className="btn btn-primary mt-4" onClick={() => toggleModal('note')}>Add note</button>}
+    </div>
     <div className="title__title  col-md">
       <h2 className="title__header">{title.titles.en || title.canonicalTitle}</h2>
       <div className="title__plot">{title.synopsis}</div>
@@ -26,7 +33,7 @@ const TitleRender = ({ title, toggleModal, id }) => (
           <p className="title-section__value">{title.popularityRank}</p>
         </div>
       </div>
-      {title.youtubeVideoId && <button className="title-section__youtube btn btn-primary" type="button" onClick={() => toggleModal()}>Watch trailer</button>}
+      {title.youtubeVideoId && <button className="title-section__youtube btn btn-primary" type="button" onClick={() => toggleModal('video')}>Watch trailer</button>}
       <TitleGenreList url={`https://kitsu.io/api/edge/anime/${id}/categories`} />
     </div>
   </div>

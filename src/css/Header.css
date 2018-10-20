@@ -1,16 +1,6 @@
-.header {
-  padding-top: 40px;
-  padding-bottom: 30px;
-}
-
 .logo {
   font-size: 36px;
   font-weight: 700;
-}
-
-.logo a, .logo a:hover {
-  color: #000000;
-  text-decoration: none;
 }
 
 .search {

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import TitleReviewItem from './TitleReviewItem.jsx';
@@ -23,11 +23,24 @@ export default class TitleReviews extends Component {
   }
 
   render() {
+    const { note } = this.props;
     const { reviews, isError } = this.state;
     if (isError) throw new Error('Couldn\'t load reviews for the title');
     if (!reviews) return <div className="main-section--loading"><LoadRing /></div>;
     return (
       <ul className="title__review-list">
+        {note && (
+          <Fragment>
+            <h3>Your note</h3>
+            <TitleReviewItem
+              selfnote
+              author={null}
+              content={note.text}
+              likes={note.rate}
+              date={note.date}
+            />
+          </Fragment>
+        )}
         {reviews.data.length > 0 && <h3>Popular reviews</h3>}
         {reviews.data.map(i => (
           <TitleReviewItem
