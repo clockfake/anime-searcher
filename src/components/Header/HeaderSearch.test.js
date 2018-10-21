@@ -8,8 +8,8 @@ describe('HeaderSearch component', () => {
 
   it('gets data from API on input change', async () => {
     const comp = await shallow(<HeaderSearch history={{listen: () => null}}/>);
-    comp.find('input').simulate('change',{target: {value: 'K-on'}});
+    comp.find('input').simulate('change',{target: {value: 'Book'}});
     await comp.update();
-    await expect(comp.state('inputValue')).toBe('K-on');
+    await expect(comp.state('inputValue')).toBe('Book');
   });
 });

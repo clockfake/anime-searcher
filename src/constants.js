@@ -28,7 +28,6 @@ export const getNote = (id) => {
   const userNotes = localStorage.getItem('userNotes') && JSON.parse(localStorage.getItem('userNotes'));
   if (!userNotes) return null;
   const index = userNotes.findIndex(note => note.id === id);
-  console.log(index);
   if (!(index+1)) return null;
   return userNotes[index];
 }
@@ -40,5 +39,12 @@ export const setNote = (note) => {
   } else {
     userNotes = [note];
   }
+  localStorage.setItem('userNotes', JSON.stringify(userNotes));
+}
+
+export const deleteNote = (id) => {
+  let userNotes = localStorage.getItem('userNotes') && JSON.parse(localStorage.getItem('userNotes'));
+  if (!userNotes) return;
+  userNotes = userNotes.filter(note => note.id !== id);
   localStorage.setItem('userNotes', JSON.stringify(userNotes));
 }

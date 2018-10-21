@@ -28,7 +28,6 @@ class VideoModal extends Component {
             className={rate >= star ? 'star-selected' : ''}
             onClick={() => this.setState({ rate: star })}
           >
-
             ☆
           </span>
         ))}

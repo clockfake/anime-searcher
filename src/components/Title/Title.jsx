@@ -56,7 +56,8 @@ export default class Title extends Component {
     const note = {
       id,
       image: fetchedTitle.data.attributes.posterImage.tiny,
-      title: fetchedTitle.data.attributes.titles.en || fetchedTitle.attributes.canonicalTitle,
+      title: fetchedTitle.data.attributes.titles.en ||
+        fetchedTitle.data.attributes.canonicalTitle,
       rate,
       text,
       date: new Date().toISOString(),

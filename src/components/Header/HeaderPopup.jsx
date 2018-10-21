@@ -38,7 +38,7 @@ HeaderPopup.defaultProps = {
         id: 10067,
         attributes: {
           titles: {
-            en: 'HIMOUTO! UMARU-CHAN',
+            en: 'Test',
           },
           showType: 'TV',
         },
