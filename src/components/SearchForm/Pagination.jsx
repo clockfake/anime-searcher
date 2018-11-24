@@ -15,7 +15,7 @@ const Pagination = ({
     if (offset < 3) return [0, 1, 2, 3, 4];
     if (offset > count / limit - 5) {
       const last = Math.ceil(count / limit);
-      return [last - 4, last - 3, last - 2, last - 1, last];
+      return [last - 5, last - 4, last - 3, last - 2, last -1];
     }
     return [offset - 2, offset - 1, offset, offset + 1, offset + 2];
   };
