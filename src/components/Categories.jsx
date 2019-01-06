@@ -18,9 +18,12 @@ export const CategoryRow = ({ list }: { list: Array<Category> }) => (
     {list.map(i => (
       <li key={i.id}>
         <Link to={`/search?${queryString.stringify(
-          { displayMode: 'filter-category',
-          filterText: i.attributes.title, offset: 0
-        })}`}
+          {
+            displayMode: 'filter-category',
+            filterText: i.attributes.title,
+            offset: 0,
+          },
+        )}`}
         >
           {i.attributes.title}
         </Link>
@@ -41,6 +44,14 @@ export default class Categories extends Component<Props, State> {
     isError: false,
   };
 
+  componentDidMount() {
+    try {
+      this.request();
+    } catch (err) {
+      this.setState({ isError: true });
+    }
+  }
+
   request = async () => {
     const res = await axios.get(`${apiLink}/categories`, {
       params: {
@@ -50,14 +61,6 @@ export default class Categories extends Component<Props, State> {
       },
     });
     this.setState({ fetchedData: res.data.data });
-  }
-
-  componentDidMount() {
-    try {
-      this.request();
-    } catch(err) {
-      this.setState({ isError: true });
-    }
   }
 
   render() {

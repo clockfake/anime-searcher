@@ -8,30 +8,32 @@ configure({ adapter: new Adapter() });
 
 axios.get = jest.fn().mockImplementationOnce(() => ({
   status: 200,
-  data: [
-    {
-      id: 1,
-      attributes: {
-        titles: {
-          en: 'test'
-        },
-        posterImage: {
-          tiny: ''
+  data: {
+    data: [
+      {
+        id: 1,
+        attributes: {
+          titles: {
+            en: 'test'
+          },
+          posterImage: {
+            tiny: ''
+          }
         }
-      }
-    },
-    {
-      id: 2,
-      attributes: {
-        titles: {
-          en: 'test TV-2'
-        },
-        posterImage: {
-          tiny: ''
+      },
+      {
+        id: 2,
+        attributes: {
+          titles: {
+            en: 'test TV-2'
+          },
+          posterImage: {
+            tiny: ''
+          }
         }
-      }
-    },
-  ]
+      },
+    ],
+  }
 }))
   .mockImplementationOnce(() => ({
     status: 500

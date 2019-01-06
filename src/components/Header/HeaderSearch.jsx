@@ -15,13 +15,13 @@ type Props = {
 
 type State = {
   inputValue: string,
-  activeItem: -1 | 0 | 1 | 2 | 3 | 4 | 5,
+  activeItem: number,
   fetchedData: ?Array<Title>,
   isError: ?boolean,
 }
 
 export default class HeaderSearch extends Component<Props, State> {
-  timer: ?TimeoutID;
+  timer: ?TimeoutID; // eslint-disable-line
 
   constructor(props: Props) {
     super(props);
@@ -31,7 +31,8 @@ export default class HeaderSearch extends Component<Props, State> {
       fetchedData: null,
       isError: null,
     };
-    this.props.history.listen(() => this.setState({ inputValue: '' }));
+    const { history: { listen } } = this.props;
+    listen(() => this.setState({ inputValue: '' }));
     this.timer = null;
   }
 
@@ -39,7 +40,7 @@ export default class HeaderSearch extends Component<Props, State> {
     const { inputValue } = this.state;
     if (inputValue.length < 3) return;
     if (inputValue !== prevState.inputValue) {
-      this.setState({ fetchedData: null });
+      this.setState({ fetchedData: null }); // eslint-disable-line
       if (this.timer) {
         clearTimeout(this.timer);
         this.timer = null;
@@ -65,7 +66,7 @@ export default class HeaderSearch extends Component<Props, State> {
     }
   }
 
-  handleKeyPress(event: SyntheticKeyboardEvent<HTMLInputElement>, searchLink: string) {
+  handleKeyPress(event: SyntheticKeyboardEvent<HTMLInputElement>, searchLink: string) { // eslint-disable-line
     const { history } = this.props;
     const { activeItem, fetchedData, inputValue } = this.state;
     if (inputValue.length < 3) return;
@@ -79,12 +80,12 @@ export default class HeaderSearch extends Component<Props, State> {
         break;
       case 'Escape': this.setState({ inputValue: '' }); break;
       case 'ArrowDown': {
-        if (activeItem < 5) this.setState(({ activeItem }) => ({ activeItem: activeItem + 1 }));
+        if (activeItem < 5) this.setState({ activeItem: activeItem + 1 });
         break;
       }
       case 'ArrowUp': {
         if (activeItem > -1) {
-          this.setState(({ activeItem }) => ({ activeItem: activeItem - 1 }));
+          this.setState({ activeItem: activeItem - 1 });
         }
         break;
       }

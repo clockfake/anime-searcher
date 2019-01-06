@@ -31,5 +31,7 @@ export default class ErrorHandler extends Component {
 }
 
 ErrorHandler.propTypes = {
-  children: PropTypes.array.isRequired,
+  children: PropTypes.arrayOf(
+    PropTypes.element,
+  ).isRequired,
 };

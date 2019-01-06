@@ -16,10 +16,6 @@ type State = {
 }
 
 export default class MainPageSection extends Component<Props, State> {
-  static defaultProps = {
-    mode: 'top-rated',
-  };
-  
   constructor(props: Props) {
     super(props);
     this.state = {

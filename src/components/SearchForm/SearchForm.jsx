@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -8,28 +9,48 @@ import {
   decoder,
   pageLimit,
   headerDecoder,
-} from 'constants.js';
+} from '../../constants.js';
 import LoadRing from '../LoadRing.jsx';
 import Pagination from './Pagination.jsx';
+import type { Title } from '../../constants';
 
+type WrappedTitles = {
+  data: Array<Title>,
+  meta: {
+    count: number,
+  },
+};
 
-export default class SearchForm extends Component {
-  constructor(props) {
+type Props = {
+  location: {
+    search: string,
+  },
+};
+
+type State = {
+  titleList: ?WrappedTitles,
+  isError: boolean,
+};
+
+export default class SearchForm extends Component<Props, State> {
+  displayMode: string; // eslint-disable-line
+  offset: number;      // eslint-disable-line
+  filterText: string;  // eslint-disable-line
+
+  constructor(props: Props) {
     super(props);
     this.state = {
       titleList: null,
       isError: false,
     };
     const { location: { search } } = this.props;
-    this.setState = this.setState.bind(this);
     const loadOptions = queryString.parse(search);
-    this.displayMode = loadOptions.displayMode && loadOptions.displayMode;
-    this.offset = loadOptions.offset && loadOptions.offset;
-    this.filterText = loadOptions.filterText && loadOptions.filterText;
+    this.displayMode = loadOptions.displayMode || 'top-rated';
+    this.offset = (loadOptions.offset && Number(loadOptions.offset)) || 0;
+    this.filterText = loadOptions.filterText;
   }
 
   componentDidMount() {
-    if (!this.displayMode || !this.offset) throw new Error('Invalid link');
     this.request();
   }
 
@@ -37,12 +58,12 @@ export default class SearchForm extends Component {
     const { location: { search } } = this.props;
     const currentOptions = queryString.parse(search);
     if (currentOptions.displayMode !== this.displayMode
-      || currentOptions.offset !== this.offset
+      || Number(currentOptions.offset) !== this.offset
       || currentOptions.filterText !== this.filterText
     ) {
       this.displayMode = currentOptions.displayMode;
-      this.offset = currentOptions.offset;
-      this.filterText = currentOptions.filterText && currentOptions.filterText;
+      this.offset = Number(currentOptions.offset);
+      this.filterText = currentOptions.filterText;
       this.request();
     }
   }
@@ -87,7 +108,7 @@ export default class SearchForm extends Component {
           offset={Number(this.offset)}
           displayMode={this.displayMode}
           filterText={this.filterText}
-          count={titleList.meta.count}
+          count={Number(titleList.meta.count)}
           limit={16}
         />
       </div>
@@ -98,11 +119,5 @@ export default class SearchForm extends Component {
 SearchForm.propTypes = {
   location: PropTypes.shape({
     search: PropTypes.string,
-  }),
-};
-
-SearchForm.defaultProps = {
-  location: {
-    search: '?displayMode=top-rated&offset=0',
-  },
+  }).isRequired,
 };

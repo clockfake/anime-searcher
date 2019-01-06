@@ -1,6 +1,5 @@
 // @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import LoadRing from '../LoadRing.jsx';
 import type { Title } from '../../constants';
@@ -31,28 +30,6 @@ const HeaderPopup = ({ fetchedData, activeItem, searchLink }: Props) => {
       </li>
     </ul>
   );
-};
-
-HeaderPopup.propTypes = {
-  fetchedData: PropTypes.array,
-  activeItem: PropTypes.number,
-  searchLink: PropTypes.string,
-};
-
-HeaderPopup.defaultProps = {
-  fetchedData: [
-    {
-      id: 10067,
-      attributes: {
-        titles: {
-          en: 'Test',
-        },
-        showType: 'TV',
-      },
-    },
-  ],
-  activeItem: 0,
-  searchLink: '',
 };
 
 export default HeaderPopup;

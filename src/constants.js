@@ -71,6 +71,7 @@ export type TitleAttr = {
   },
   posterImage: {
     tiny: string,
+    small: string,
     medium: string,
     },
   canonicalTitle: string,
