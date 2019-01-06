@@ -1,8 +1,17 @@
+// @flow
 import React from 'react';
 import PropTypes from 'prop-types';
 import TitleGenreList from './TitleGenreList.jsx';
+import type { TitleAttr } from '../../constants';
 
-const TitleRender = ({ title, toggleModal, id, noNote }) => (
+type Props = {
+  title: TitleAttr,
+  toggleModal: (string) => void,
+  id: string,
+  noNote: boolean,
+};
+
+const TitleRender = ({ title, toggleModal, id, noNote}: Props) => (
   <div className="title__main  row  no-gutters">
     <div className="title__poster  col-md">
       <img
@@ -22,7 +31,7 @@ const TitleRender = ({ title, toggleModal, id, noNote }) => (
         </div>
         <div className="title-section">
           <p className="title-section__heading">Status</p>
-          <p className="title-section__value">{title.status === 'finished' ? `${title.status} ${title.endDate}` : title.status}</p>
+          <p className="title-section__value">{title.status === 'finished' && title.endDate ? `${title.status} ${title.endDate}` : title.status}</p>
         </div>
         <div className="title-section">
           <p className="title-section__heading">Rating:</p>

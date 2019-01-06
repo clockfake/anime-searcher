@@ -1,20 +1,29 @@
+// @flow
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import '../css/Notes.css';
-import { deleteNote } from '../constants';
+import { fetchNotes, deleteNote } from '../constants';
+import type { Note } from '../constants';
 
-export default class NotesList extends Component {
-  constructor(props) {
-    super(props);
-    let notesArr = JSON.parse(localStorage.getItem('userNotes'));
+type Props = {};
+type State = {
+  notesArr: ?Array<Note>
+}
+
+export default class NotesList extends Component<Props, State> {
+  constructor() {
+    super();
+    let notesArr = fetchNotes();
     this.state = {
       notesArr,
     };
   }
 
-  handleDelete = (id) => {
+  handleDelete = (id: string) => {
     deleteNote(id);
-    this.setState(({ notesArr }) => ({ notesArr: notesArr.filter(note => note.id !== id) }));
+    if (this.state.notesArr && this.state.notesArr.length) {
+      this.setState(({ notesArr }) => ({ notesArr: notesArr.filter(note => note.id !== id) }));
+    }
   }
 
   render() {

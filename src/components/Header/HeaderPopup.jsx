@@ -1,16 +1,24 @@
+// @flow
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import LoadRing from '../LoadRing.jsx';
+import type { Title } from '../../constants';
 
-const HeaderPopup = ({ fetchedData, activeItem, searchLink }) => {
+type Props = {
+  fetchedData: ?Array<Title>,
+  activeItem: number,
+  searchLink: string,
+}
+
+const HeaderPopup = ({ fetchedData, activeItem, searchLink }: Props) => {
   if (!fetchedData) return <div className="search__popup-loading"><LoadRing /></div>;
-  if (fetchedData && !fetchedData.data.length) {
+  if (fetchedData && fetchedData.length === 0) {
     return <div className="search__popup-loading">No results</div>;
   }
   return (
     <ul className="search__popup-list">
-      {fetchedData.data.map((i, index) => (
+      {fetchedData.map((i, index) => (
         <li key={i.id} className={`search__popup-item  list-group-item ${activeItem === index ? 'active' : ''}`}>
           <Link className="search__item-info-wrapper" to={`/title/${i.id}`}>
             <span>{i.attributes.titles.en || i.attributes.canonicalTitle}</span>
@@ -26,25 +34,23 @@ const HeaderPopup = ({ fetchedData, activeItem, searchLink }) => {
 };
 
 HeaderPopup.propTypes = {
-  fetchedData: PropTypes.object,
+  fetchedData: PropTypes.array,
   activeItem: PropTypes.number,
   searchLink: PropTypes.string,
 };
 
 HeaderPopup.defaultProps = {
-  fetchedData: {
-    data: [
-      {
-        id: 10067,
-        attributes: {
-          titles: {
-            en: 'Test',
-          },
-          showType: 'TV',
+  fetchedData: [
+    {
+      id: 10067,
+      attributes: {
+        titles: {
+          en: 'Test',
         },
+        showType: 'TV',
       },
-    ],
-  },
+    },
+  ],
   activeItem: 0,
   searchLink: '',
 };

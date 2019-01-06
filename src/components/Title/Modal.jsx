@@ -1,17 +1,31 @@
+// @flow
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-class VideoModal extends Component {
+type Props = {
+  videoId?: string,
+  type: string,
+  toggleModal: () => void,
+  saveNote: (rate: number, text: string) => void,
+};
+
+type State = {
+  rate: number,
+  text: string,
+};
+
+class VideoModal extends Component<Props, State> {
   state = {
     rate: 0,
     text: '',
   };
 
-  handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
+  handleChange = (e: SyntheticEvent<HTMLButtonElement>) => {
+    const target: HTMLButtonElement = e.currentTarget;
+    this.setState({ [target.name]: target.value });
   };
 
-  handleSubmit = (e) => {
+  handleSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     const { rate, text } = this.state;
     e.preventDefault();
     this.props.saveNote(rate, text);
@@ -44,7 +58,7 @@ class VideoModal extends Component {
           <iframe
             title="modal-video"
             className="modal-window"
-            src={`https://www.youtube.com/embed/${videoId}`}
+            src={videoId ? `https://www.youtube.com/embed/${videoId}` : ''}
             allowFullScreen="allowfullscreen"
             mozallowfullscreen="mozallowfullscreen"
             msallowfullscreen="msallowfullscreen"

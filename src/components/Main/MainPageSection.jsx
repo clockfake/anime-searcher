@@ -1,18 +1,31 @@
+// @flow
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import axios from 'axios';
 import LoadRing from '../LoadRing.jsx';
 import { apiLink, decoder, headerDecoder } from '../../constants';
+import type { Title } from '../../constants';
 
-export default class MainPageSection extends Component {
-  constructor(props) {
+type Props = {
+  mode: string,
+};
+
+type State = {
+  isError: boolean,
+  fetchedData: ?Array<Title>,
+}
+
+export default class MainPageSection extends Component<Props, State> {
+  static defaultProps = {
+    mode: 'top-rated',
+  };
+  
+  constructor(props: Props) {
     super(props);
     this.state = {
       isError: false,
       fetchedData: null,
     };
-    this.setState = this.setState.bind(this);
   }
 
   componentDidMount() {
@@ -20,7 +33,7 @@ export default class MainPageSection extends Component {
     (async () => {
       const res = await axios.get(`${apiLink}/anime${decoder(mode)}&page[limit]=9&page[offset]=0&fields[anime]=id,posterImage,titles,canonicalTitle`);
       if (res.status !== 200) throw new Error('bad request');
-      this.setState({ fetchedData: res.data });
+      this.setState({ fetchedData: res.data.data });
     })().catch(() => this.setState({ isError: true }));
   }
 
@@ -34,7 +47,7 @@ export default class MainPageSection extends Component {
       <div className="main-section">
         <h4>{str}</h4>
         <div className="main-list-container  row  no-gutters  justify-content-start">
-          {fetchedData.data.map(i => (
+          {fetchedData.map(i => (
             <div key={i.id} className="main__item  main__item--small  col">
               <Link to={`/title/${i.id}`}>
                 <img
@@ -56,11 +69,3 @@ export default class MainPageSection extends Component {
     );
   }
 }
-
-MainPageSection.propTypes = {
-  mode: PropTypes.string,
-};
-
-MainPageSection.defaultProps = {
-  mode: 'top-rated',
-};

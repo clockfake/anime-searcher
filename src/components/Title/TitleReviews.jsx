@@ -1,24 +1,42 @@
+// @flow
 import React, { Component, Fragment } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import TitleReviewItem from './TitleReviewItem.jsx';
 import LoadRing from '../LoadRing.jsx';
+import type { Note } from '../../constants';
 
-export default class TitleReviews extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      reviews: null,
-      isError: false,
-    };
-    this.setState = this.setState.bind(this);
+export type Review = {
+  id: string,
+  attributes: {
+    source: string,
+    contentFormatted: string,
+    likesCount: number,
+    updatedAt: string,
   }
+};
 
-  componentDidMount() {
+type Props = {
+  url: string,
+  note: ?Note,
+};
+
+type State = {
+  reviews: ?Array<Review>,
+  isError: boolean,
+};
+
+export default class TitleReviews extends Component<Props, State> {
+  state = {
+    reviews: null,
+    isError: false,
+  };
+
+  componentDidMount = () => {
     const { url } = this.props;
     (async () => {
       const res = await axios.get(url);
-      this.setState({ reviews: res.data });
+      this.setState({ reviews: res.data.data });
     })().catch(() => this.setState({ isError: true }));
   }
 
@@ -41,8 +59,8 @@ export default class TitleReviews extends Component {
             />
           </Fragment>
         )}
-        {reviews.data.length > 0 && <h3>Popular reviews</h3>}
-        {reviews.data.map(i => (
+        {reviews.length > 0 && <h3>Popular reviews</h3>}
+        {reviews.map(i => (
           <TitleReviewItem
             key={i.id}
             author={i.attributes.source}

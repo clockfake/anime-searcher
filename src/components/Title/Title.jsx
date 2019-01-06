@@ -1,14 +1,32 @@
+// @flow
 import React, { Component } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { apiLink, getNote, setNote } from 'constants.js';
-import 'css/Title.css';
+import { apiLink, getNote, setNote } from '../../constants';
+import '../../css/Title.css';
 import TitleReviews from './TitleReviews.jsx';
 import TitleRender from './TitleRender.jsx';
 import Modal from './Modal.jsx';
 import LoadRing from '../LoadRing.jsx';
+import type { Title as TitleType, Note } from '../../constants';
 
-export default class Title extends Component {
+type Props = {
+  match: {
+    params: {
+      id: string
+    }
+  }
+}
+
+type State = {
+  fetchedTitle: ?TitleType,
+  isError: boolean,
+  shouldShowModal: boolean,
+  modalType: string,
+  note: ?Note,
+}
+
+export default class Title extends Component<Props, State> {
   state = {
     fetchedTitle: null,
     isError: false,
@@ -30,7 +48,7 @@ export default class Title extends Component {
     const { fetchedTitle } = this.state;
     const { id } = this.props.match.params; //eslint-disable-line
     if (!fetchedTitle) return;
-    if (fetchedTitle.data.id !== id) {
+    if (fetchedTitle.id !== id) {
       this.request();
     }
   }
@@ -40,30 +58,32 @@ export default class Title extends Component {
     try {
       this.setState({ fetchedTitle: null });
       const res = await axios.get(`${apiLink}/anime/${id}`);
-      this.setState({ fetchedTitle: res.data });
+      this.setState({ fetchedTitle: res.data.data });
     } catch (err) {
       this.setState({ isError: true });
     }
   }
 
-  toggleModal = (type = 'video') => {
+  toggleModal = (type: string = 'video') => {
     this.setState(({ shouldShowModal }) => ({ shouldShowModal: !shouldShowModal, modalType: type }));
   }
 
-  saveNote = (rate, text) => {
+  saveNote = (rate: number, text: string) => {
     const { id } = this.props.match.params; //eslint-disable-line
     const { fetchedTitle } = this.state;
-    const note = {
-      id,
-      image: fetchedTitle.data.attributes.posterImage.tiny,
-      title: fetchedTitle.data.attributes.titles.en ||
-        fetchedTitle.data.attributes.canonicalTitle,
-      rate,
-      text,
-      date: new Date().toISOString(),
+    if (fetchedTitle) {
+      const note = {
+        id,
+        image: fetchedTitle.attributes.posterImage.tiny,
+        title: fetchedTitle.attributes.titles.en ||
+          fetchedTitle.attributes.canonicalTitle,
+        rate,
+        text,
+        date: new Date().toISOString(),
+      }
+      setNote(note);
+      this.setState({ note, shouldShowModal: false });
     }
-    setNote(note);
-    this.setState({ note, shouldShowModal: false });
   }
 
   render() {
@@ -74,9 +94,9 @@ export default class Title extends Component {
     return (
       <div className="title">
         <TitleRender
-          title={fetchedTitle.data.attributes}
+          title={fetchedTitle.attributes}
           toggleModal={(type) => this.toggleModal(type)}
-          id={fetchedTitle.data.id}
+          id={fetchedTitle.id}
           noNote={note === null}
         />
         <TitleReviews url={`${apiLink}/anime/${id}/reviews?sort=-likesCount&page[limit]=5`} note={note} />
@@ -84,7 +104,7 @@ export default class Title extends Component {
           <Modal
             toggleModal={() => this.toggleModal()}
             type={modalType}
-            videoId={fetchedTitle.data.attributes.youtubeVideoId}
+            videoId={fetchedTitle.attributes.youtubeVideoId}
             saveNote={this.saveNote}
           />
         )}

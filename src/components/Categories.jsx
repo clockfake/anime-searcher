@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -5,35 +6,58 @@ import queryString from 'query-string';
 import LoadRing from './LoadRing.jsx';
 import { apiLink } from '../constants';
 
-export const CategoryRow = ({ list }) => (
+type Category = {
+  id: string,
+  attributes: {
+    title: string,
+  },
+};
+
+export const CategoryRow = ({ list }: { list: Array<Category> }) => (
   <ul className="categories__list  col-sm-6">
     {list.map(i => (
       <li key={i.id}>
-        <Link to={`/search?${queryString.stringify({ displayMode: 'filter-category', filterText: i.attributes.title, offset: 0 })}`}>{i.attributes.title}</Link>
+        <Link to={`/search?${queryString.stringify(
+          { displayMode: 'filter-category',
+          filterText: i.attributes.title, offset: 0
+        })}`}
+        >
+          {i.attributes.title}
+        </Link>
       </li>
     ))}
   </ul>
 );
 
-export default class Categories extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      fetchedData: null,
-    };
+type Props = {};
+type State = {
+  fetchedData: ?Array<Category>,
+  isError: boolean,
+};
+
+export default class Categories extends Component<Props, State> {
+  state = {
+    fetchedData: null,
+    isError: false,
+  };
+
+  request = async () => {
+    const res = await axios.get(`${apiLink}/categories`, {
+      params: {
+        sort: '-totalMediaCount',
+        'page[limit]': 60,
+        'page[offset]': 0,
+      },
+    });
+    this.setState({ fetchedData: res.data.data });
   }
 
   componentDidMount() {
-    (async () => {
-      const res = await axios.get(`${apiLink}/categories`, {
-        params: {
-          sort: '-totalMediaCount',
-          'page[limit]': 60,
-          'page[offset]': 0,
-        },
-      });
-      this.setState({ fetchedData: res.data });
-    })().catch(() => this.setState({ isError: true }));
+    try {
+      this.request();
+    } catch(err) {
+      this.setState({ isError: true });
+    }
   }
 
   render() {
@@ -45,8 +69,8 @@ export default class Categories extends Component {
       <div className="categories">
         <h4>Popular categories</h4>
         <div className="row no-gutters">
-          <CategoryRow list={fetchedData.data.slice(0, 30)} />
-          <CategoryRow list={fetchedData.data.slice(30)} />
+          <CategoryRow list={fetchedData.slice(0, 30)} />
+          <CategoryRow list={fetchedData.slice(30)} />
         </div>
       </div>
     );

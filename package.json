@@ -33,7 +33,8 @@
     "build": "react-scripts build",
     "test": "jest",
     "linter": "eslint src/components/**",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "flow": "flow"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
@@ -47,7 +48,9 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-react": "^7.11.1",
+    "flow-bin": "^0.89.0",
     "identity-obj-proxy": "^3.0.0",
+    "jest": "^23.6.0",
     "sinon": "^6.1.5"
   }
 }

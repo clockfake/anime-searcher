@@ -1,23 +1,41 @@
+// @flow
 import React, { Component } from 'react';
 import queryString from 'query-string';
 import axios from 'axios';
-import { apiLink } from 'constants.js';
+import { apiLink } from '../../constants';
 import HeaderPopup from './HeaderPopup.jsx';
+import type { Title } from '../../constants';
 
-export default class HeaderSearch extends Component {
-  constructor(props) {
+type Props = {
+  history: {
+    push: (path: string) => void,
+    listen: (callback: () => void) => void,
+  }
+}
+
+type State = {
+  inputValue: string,
+  activeItem: -1 | 0 | 1 | 2 | 3 | 4 | 5,
+  fetchedData: ?Array<Title>,
+  isError: ?boolean,
+}
+
+export default class HeaderSearch extends Component<Props, State> {
+  timer: ?TimeoutID;
+
+  constructor(props: Props) {
     super(props);
     this.state = {
       inputValue: '',
-      activeItem: null,
+      activeItem: -1,
       fetchedData: null,
+      isError: null,
     };
-    this.setState = this.setState.bind(this);
     this.props.history.listen(() => this.setState({ inputValue: '' }));
     this.timer = null;
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(_: any, prevState: State) {
     const { inputValue } = this.state;
     if (inputValue.length < 3) return;
     if (inputValue !== prevState.inputValue) {
@@ -41,33 +59,31 @@ export default class HeaderSearch extends Component {
             'fields[anime]': 'id,titles,canonicalTitle,showType',
           },
         });
-      this.setState({ fetchedData: res.data });
+      this.setState({ fetchedData: res.data.data });
     } catch (err) {
       this.setState({ isError: err });
     }
   }
 
-  handleKeyPress(event, searchLink) {
+  handleKeyPress(event: SyntheticKeyboardEvent<HTMLInputElement>, searchLink: string) {
     const { history } = this.props;
     const { activeItem, fetchedData, inputValue } = this.state;
     if (inputValue.length < 3) return;
     switch (event.key) {
       case 'Enter':
-        if (activeItem === null || activeItem === 5) {
+        if (activeItem === -1 || activeItem === 5) {
           history.push(searchLink);
-        } else {
-          history.push(`/title/${fetchedData.data[activeItem].id}`);
+        } else if (fetchedData && fetchedData[activeItem]) {
+          history.push(`/title/${fetchedData[activeItem].id}`);
         }
         break;
       case 'Escape': this.setState({ inputValue: '' }); break;
       case 'ArrowDown': {
-        if (activeItem === null) { this.setState({ activeItem: 0 }); } else
         if (activeItem < 5) this.setState(({ activeItem }) => ({ activeItem: activeItem + 1 }));
         break;
       }
       case 'ArrowUp': {
-        if (activeItem === 0) { this.setState({ activeItem: null }); } else
-        if (activeItem !== null) {
+        if (activeItem > -1) {
           this.setState(({ activeItem }) => ({ activeItem: activeItem - 1 }));
         }
         break;
